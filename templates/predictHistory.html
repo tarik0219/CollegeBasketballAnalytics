@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Predict Historical{% endblock %}
+{% block styles %}
+{{ super() }}
+<style>
+   .btn-primary {
+  background-color: lightblue;
+}
+
+</style>
+{% endblock %}
+{% block content %}
+<meta charset="UTF-8">
+<title>2023 College Basketball AI Rankings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
+    integrity="sha512-5Ad5E5eQ/7ObYvhnzKjMk21bscS1S7GnmvkiOu9qVdO4gs4fTbTtDY8Tc3qyqKfBtGczh03i9QIVxojd37RlZg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    /* Add your custom styles here */
+    .container {
+        margin-top: 10px;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 48px;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px #fff;
+    }
+
+    table {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th,
+    td {
+        font-size: 18px;
+        text-align: center;
+        vertical-align: middle !important;
+    }
+
+    img {
+        max-width: 40px;
+        max-height: 40px;
+    }
+
+    /* Styles for mobile devices */
+    @media only screen and (max-width: 1000px) {
+        .container {
+            margin-top: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px #fff;
+        }
+
+        th,
+        td {
+            font-size: 8px;
+            text-align: center;
+            vertical-align: middle !important;
+        }
+
+        img {
+            max-width: 20px;
+            max-height: 20px;
+        }
+    }
+</style>
+
+<div class="container">
+    <br>
+
+<h1>Simulate Game Scores</h1>
+<br>
+    <form method="POST" action="/historical">
+        <dl>
+        {{ wtf.quick_form(form)}}
+         <input class="btn btn-primary" type="submit" value="Submit">
+         </dl>
+     </form>
+</div>
+{% endblock %}

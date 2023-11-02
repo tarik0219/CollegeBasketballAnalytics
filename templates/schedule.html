@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% block title %}Schedule{% endblock %}
+{% block content %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" integrity="sha512-5Ad5E5eQ/7ObYvhnzKjMk21bscS1S7GnmvkiOu9qVdO4gs4fTbTtDY8Tc3qyqKfBtGczh03i9QIVxojd37RlZg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    /* Add your custom styles here */
+    .container {
+        margin-top: 10px;
+    }
+
+    h1, h2, h3 {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px #fff;
+    }
+
+    table {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th, td {
+        font-size: 12px;
+        text-align: center;
+        vertical-align: middle !important;
+    }
+
+    img {
+        max-width: 40px;
+        max-height: 40px;
+    }
+
+    /* Styles for mobile devices */
+    @media only screen and (max-width: 1000px) {
+        .hide-on-mobile {
+            display: none;
+        }
+        .date-on-mobile {
+            font-size: 5px;
+        }
+        .bigger-on-mobile {
+            font-size: 12px;
+        }
+        .container {
+            margin-top: 10px;
+        }
+        h1, h2, h3 {
+            text-align: center;
+            font-size: 12px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px #fff;
+        }
+
+        th {
+                font-size: 10px;
+                text-align: center;
+                vertical-align: middle !important;
+        }
+        td {
+                font-size: 7px;
+                text-align: center;
+                vertical-align: middle !important;
+        }
+
+        img {
+            max-width: 20px;
+            max-height: 20px;
+        }
+    }
+
+    @media only screen and (min-width: 1001px) {
+        .on-mobile {
+            display: none;
+        } 
+
+    }
+</style>
+
+
+
+<div class="container">
+    <h2><img src="{{ ''.join(['/static/pics/', team_data.teamName ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([team_data.teamName]) }}" width="50" height="40" title="{{ ''.join([team_data.teamName]) }}" >#{{team_data.ranks.rank}} {{team_data.teamName}} {{records.win}} - {{records.loss}} ({{records.confWin}} - {{records.confLoss}})</h2>
+    <h3>Projected Record: {{records.projectedWin}} - {{records.projectedLoss}} ({{records.confProjectedWin}} - {{records.confProjectedLoss}})</h3>
+    <h3>Quad Record:</h3>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered table-sm table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Rankings</th> 
+                    <th>Quad 1</th>
+                    <th>Quad 2</th>
+                    <th>Quad 3</th>
+                    <th>Quad 4</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tbody id="myTable">
+                    <tr>
+                        <td>TK</td>  
+                        <td>{{ quad_records[1]['wins'] }} - {{ quad_records[1]['losses'] }}</td>
+                        <td>{{ quad_records[2]['wins'] }} - {{ quad_records[2]['losses'] }}</td>
+                        <td>{{ quad_records[3]['wins'] }} - {{ quad_records[3]['losses'] }}</td>
+                        <td>{{ quad_records[4]['wins'] }} - {{ quad_records[4]['losses'] }}</td>
+                    </tr>
+                    <tr>
+                        <td>NET</td>  
+                        <td>{{ net_quad_records[1]['wins'] }} - {{ net_quad_records[1]['losses'] }}</td>
+                        <td>{{ net_quad_records[2]['wins'] }} - {{ net_quad_records[2]['losses'] }}</td>
+                        <td>{{ net_quad_records[3]['wins'] }} - {{ net_quad_records[3]['losses'] }}</td>
+                        <td>{{ net_quad_records[4]['wins'] }} - {{ net_quad_records[4]['losses'] }}</td>
+                    </tr>
+            </tbody>
+    </table>
+
+    <table class="table table-hover table-bordered table-sm table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Date/Time</th>
+                <th class="hide-on-mobile">Type</th>
+                <th>Venue</th>
+                <th>Net</th>
+                <th></th>
+                <th>Opponent</th>
+                <th>Q</th>
+                <th class="hide-on-mobile">Conference</th>
+                <th class="on-mobile">Conf</th>
+                <th class="bigger-on-mobile">Score</th>
+                <th class="hide-on-mobile">Result</th>
+                <th class="hide-on-mobile">Line/Score Prediction</th>
+            <tr>
+        </thead>
+        <tbody>
+            <tbody id="myTable">
+                    {% for game in data %}
+                    <tr>
+                        <td class="date-on-mobile">
+                            {{ game.date}}
+                            <br>
+                            {{ game.time}}ET
+                        </td>
+                        <td class="hide-on-mobile">{{ game.gameType }}</td>
+                        <td>{{ game.venue }}</td>
+                        {% if game.opponentData and quadBool%}
+                        <td>{{ game.opponentData.net_rank }}</td>
+                        {% else %}
+                        <td></td>
+                        {% endif %}
+        
+                        <td><img src="{{ ''.join(['/static/pics/', game.opponentName ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([game.opponentName]) }}" width="25" height="20" title="{{ ''.join([game.opponentName]) }}" ></td>
+                        
+                        {% if game.opponentData  %}
+                            <td><a href="{{ ''.join(['/schedule/', game.opponentId ]) }}">{{ game.opponentName }}</a> #{{game.opponentData.ranks.rank}}</td>
+                            {% if quadBool  %}
+                                <td>{{ game.netQuad }}</td>
+                            {% else %}
+                                <td>{{ game.quad }}</td>
+                            {% endif %}
+                            <td><a href="{{ ''.join(['/conference/', game.opponentData.conference]) }}" style="text-decoration: none;">{{ game.opponentData.conference }}</a></td>
+                        {% else %}
+                            <td>{{ game.opponentName }}</td>
+                            <td></td>
+                            <td></td>
+                        {% endif %}
+    
+                        {% if game.completetd %}
+                            <td><a href="{{ ''.join(['/boxscore/', game.gameId, '/',game.dateBox ]) }}">{{game.score}} - {{game.opponentScore}}</a></td> 
+                        {% else %}  
+                            <td class="hide-on-mobile"></td> 
+                            {% if game.scorePrediction  %}
+                                <td class="on-mobile" style="font-size: 5px">
+                                {{game.scorePrediction}} - {{game.opponentScorePrediction}}
+                                <br>
+                                {{ "%.2f"|format(game.prob)}}%
+                                </td>
+                            {% else %}
+                                <td class="on-mobile">99.00%</td>
+                            {% endif %}
+                        {% endif %} 
+    
+                        <td class="hide-on-mobile">{{game.result}}</td> 
+    
+                        {% if game.completetd == False  %}
+                            {% if game.scorePrediction  %}
+                                <td class="hide-on-mobile">{{game.scorePrediction}} - {{game.opponentScorePrediction}} | {{ "%.2f"|format(game.prob)}}%</td>
+                            {% else %}
+                                <td class="hide-on-mobile">99.00%</td>
+                            {% endif %}
+                        {% else %}
+                            {% if game.line == None  %}
+                                <td class="hide-on-mobile"></td>
+                            {% else %}
+                                <td class="hide-on-mobile"><img src="{{ ''.join(['/static/pics/', game.homeLineName ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([game.homeLineName]) }}" width="25" height="20" title="{{ ''.join([game.homeLineName]) }}" >{{game.line}}</td>
+                            {% endif %}
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+            </tbody>
+    </table>
+</div>
+
+<br>
+<br>
+{% endblock %}

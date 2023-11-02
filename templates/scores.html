@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block title %}Scores{% endblock %}
+{% block content %}
+{% import "bootstrap/wtf.html" as wtf %}
+<meta charset="UTF-8">
+<title>2023 College Basketball AI Rankings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
+    integrity="sha512-5Ad5E5eQ/7ObYvhnzKjMk21bscS1S7GnmvkiOu9qVdO4gs4fTbTtDY8Tc3qyqKfBtGczh03i9QIVxojd37RlZg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    /* Add your custom styles here */
+    .container {
+        margin-top: 10px;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 48px;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px #fff;
+    }
+
+    table {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th,
+    td {
+        font-size: 18px;
+        text-align: center;
+        vertical-align: middle !important;
+    }
+
+    img {
+        max-width: 40px;
+        max-height: 40px;
+    }
+
+    /* Styles for mobile devices */
+    @media only screen and (max-width: 1000px) {
+        .container {
+            margin-top: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px #fff;
+        }
+
+        th,
+        td {
+            font-size: 8px;
+            text-align: center;
+            vertical-align: middle !important;
+        }
+
+        img {
+            max-width: 20px;
+            max-height: 20px;
+        }
+    }
+</style>
+<div class="container">
+    <h1>College Basketball Scores</h1>
+    <h1>{{search}} | {{date}}</h1>
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <label for="{{ form.entrydate.id }}">{{ form.entrydate.label }}</label>
+                    {{ form.entrydate(class="form-control", id=form.entrydate.id) }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.games.id }}">{{ form.games.label }}</label>
+                    {{ form.games(class="form-control", id=form.games.id) }}
+                </div>
+                {{ form.submit(class="btn btn-primary") }}
+            </form>
+        </div>
+    </div>
+    <br>
+    {% for game in data %}
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered table-sm table-striped">
+            <tbody>
+            <tbody id="myTable">
+                <tr>
+                    {% if game.status == 'post' and game.period == 0 %}
+                    <td colspan="4" style="color:red">POSTPONED</td>
+                    {% elif game.status == 'in' %}
+                    <td colspan="4" style="color:red">{{ game.half}} {{ game.clock}} {{ game.broadcast}} <a
+                            href="{{ ''.join(['/boxscore/', game.id, '/', datesearch]) }}">Boxscore</a></td>
+                    {% elif game.status == 'pre' and game.homeData != None and game.awayData != None %}
+                    <td colspan="4">{{ game.time}} ET {{ game.broadcast}} <a
+                            href="{{ ''.join(['/predict/', game.homeTeam, '/', game.awayTeam, '/', game.siteType ]) }}">Preview</a>
+                    </td>
+                    {% elif game.status == 'pre' %}
+                    <td colspan="4">{{ game.time}} ET {{ game.broadcast}}</td>
+                    {% elif game.status == 'post' and game.period > 2 %}
+                    <td colspan="4" style="color:red">Final {{game.half}} <a
+                            href="{{ ''.join(['/boxscore/', game.id, '/', datesearch]) }}">Boxscore</a></td>
+                    {% else %}
+                    <td colspan="4" style="color:red">Final <a
+                            href="{{ ''.join(['/boxscore/', game.id, '/', datesearch]) }}">Boxscore</a></td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    {% if game.awayData != None %}
+                    <td colspan="2" style="width: 40%"><img
+                            src="{{ ''.join(['/static/pics/', game.awayTeam ,'.png']) }}"
+                            onerror="this.onerror=null; this.src='/static/pics/basketball.png'"
+                            alt="{{ ''.join([game.awayTeam]) }}" width="25" height="20"
+                            title="{{ ''.join([game.awayTeam]) }}"><a
+                            href="{{ ''.join(['/schedule/', game.awayTeamId ]) }}">{{ game.awayTeam }}</a>
+                        #{{game.awayData.ranks.rank}}</td>
+                    {% else %}
+                    <td colspan="2" style="width: 40%">{{game.awayTeam}}</td>
+                    {% endif %}
+
+                    <td style="width: 7%">{{ game.awayScore }}</td>
+
+                    {% if game.homeScorePredict != None%}
+                    <td style="width: 15%"><img src="{{ ''.join(['/static/pics/', game.awayTeam ,'.png']) }}"
+                            onerror="this.onerror=null; this.src='/static/pics/basketball.png'"
+                            alt="{{ ''.join([game.awayTeam]) }}" width="25" height="20"
+                            title="{{ ''.join([game.awayTeam]) }}">{{game.awayScorePredict}}-<img
+                            src="{{ ''.join(['/static/pics/', game.homeTeam ,'.png']) }}"
+                            onerror="this.onerror=null; this.src='/static/pics/basketball.png'"
+                            alt="{{ ''.join([game.homeTeam]) }}" width="25" height="20"
+                            title="{{ ''.join([game.homeTeam]) }}">{{game.homeScorePredict}}</td>
+                    {% else %}
+                    <td style="width: 15%"></td>
+                    {% endif %}
+
+                </tr>
+                <tr>
+                    {% if game.homeData != None %}
+                    <td colspan="2" style="width: 40%"><img
+                            src="{{ ''.join(['/static/pics/', game.homeTeam ,'.png']) }}"
+                            onerror="this.onerror=null; this.src='/static/pics/basketball.png'"
+                            alt="{{ ''.join([game.homeTeam]) }}" width="25" height="20"
+                            title="{{ ''.join([game.homeTeam]) }}"><a
+                            href="{{ ''.join(['/schedule/', game.homeTeamId ]) }}">{{ game.homeTeam }}</a>
+                        #{{game.homeData.ranks.rank}}</td>
+                    {% else %}
+                    <td colspan="2" style="width: 40%">{{game.homeTeam}}</td>\
+                    {% endif %}
+
+                    <td style="width: 7%">{{ game.homeScore }}</td>
+                    {% if not game.line %}
+                    <td style="width: 20%"></td>
+                    {% elif game.line != None and game.homeData != None %}
+                    <td class style="width: 20%"><img src="{{ ''.join(['/static/pics/', game.homeTeam ,'.png']) }}"
+                            onerror="this.onerror=null; this.src='/static/pics/basketball.png'"
+                            alt="{{ ''.join([game.homeTeam]) }}" width="25" height="20"
+                            title="{{ ''.join([game.homeTeam]) }}">{% if game.line > 0 %}+{{ game.line}} O/U:
+                        {{game.overUnder}}{% else %}{{ game.line}} O/U: {{game.overUnder}}{% endif %}</td>
+                    {% else %}
+                    <td style="width: 20%"></td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>
+        {% endfor %}
+
+        {% endblock %}

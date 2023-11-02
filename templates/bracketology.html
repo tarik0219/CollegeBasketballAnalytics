@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Bracketology{% endblock %}
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<style>
+    .under-limit { background-color: green; }
+    .win { background-color: green; }
+    .loss { background-color: red; }
+    
+        table.table-fit {
+        width: auto !important;
+        table-layout: auto !important;
+    }
+    table.table-fit thead th, table.table-fit tfoot th {
+        width: auto !important;
+    }
+    table.table-fit tbody td, table.table-fit tfoot td {
+        width: auto !important;
+    }
+    
+    .table {
+        border-radius: 5px;
+        width: 50%;
+        margin: 0px auto;
+        float: none;
+    }
+    
+    h1 {
+        text-align:center;
+    }
+    
+    
+    table tbody tr td {
+      font-size: 24px;
+    }
+    
+    center {
+      font-size: 24px;
+    }
+
+    #inner {
+        vertical-align: center;
+    }
+    
+ </style>
+<h1>College Basketball AI Bracketology</h1>
+<center style="font-size:10px">*Denotes conference champion</center>
+<center style="font-size:10px">**Denotes Last 4 In</center>
+<center style="font-size:10px">***Denotes Play In</center>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<table class="table table-fit table-hover table-bordered table-sm table-striped">
+    <tr>
+        <th></th>
+        <th>Team Name</th>
+        <th>Seed</th>
+        <th>At-Large Probability</th>
+    </tr>
+
+    <tbody id="myTable">
+        {% for team in data %}
+        <tr>
+            <td><img src="{{ ''.join(['/static/pics/', team.Team ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'"  alt="{{ ''.join([team.Team]) }}" width="25" height="20" title="{{ ''.join([team.Team]) }}" ></td>
+            {% if team.play_in == 1 %}
+            <td style="font-size:20px"><a href="{{ ''.join(['/schedule/', team.id ]) }}" style="text-decoration: none;">{{team.Team}}</a>***</td>
+            {% elif team.auto == 1 %}
+            <td style="font-size:20px"><a href="{{ ''.join(['/schedule/', team.id ]) }}" style="text-decoration: none;">{{team.Team}}</a>*</td>
+            {% elif team.last_4_in == 1 %}
+            <td style="font-size:20px"><a href="{{ ''.join(['/schedule/', team.id ]) }}" style="text-decoration: none;">{{team.Team}}</a>**</td>
+            {% else %}
+            <td style="font-size:20px"><a href="{{ ''.join(['/schedule/', team.id ]) }}" style="text-decoration: none;">{{team.Team}}</a></td>
+            {% endif %}
+            
+            {% if team.seed == 17 %}
+                <td  style="font-size:15px"></td>
+            {% else %}
+                <td  style="font-size:15px">{{team.seed}}</td>
+            {% endif %}
+            
+            <td  style="font-size:15px">{{"%.2f"|format(team.at_large_prob)}}%</td>
+      {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

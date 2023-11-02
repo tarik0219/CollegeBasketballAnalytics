@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Schedule{% endblock %}
+{% block content %}
+<meta charset="UTF-8">
+<title>2023 College Basketball AI Rankings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
+    integrity="sha512-5Ad5E5eQ/7ObYvhnzKjMk21bscS1S7GnmvkiOu9qVdO4gs4fTbTtDY8Tc3qyqKfBtGczh03i9QIVxojd37RlZg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    /* Add your custom styles here */
+    .container {
+        margin-top: 10px;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 48px;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px #fff;
+    }
+
+    table {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th,
+    td {
+        font-size: 18px;
+        text-align: center;
+        vertical-align: middle !important;
+    }
+
+    img {
+        max-width: 40px;
+        max-height: 40px;
+    }
+
+    /* Styles for mobile devices */
+    @media only screen and (max-width: 1000px) {
+        .container {
+            margin-top: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px #fff;
+        }
+
+        th,
+        td {
+            font-size: 8px;
+            text-align: center;
+            vertical-align: middle !important;
+        }
+
+        img {
+            max-width: 20px;
+            max-height: 20px;
+        }
+    }
+</style>
+<div class="container">
+    <h1>Game Preview</h1>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered table-sm table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Team Name</th>
+                    <th>Predicted Score</th>
+                    <th>Probability</th>
+                <tr>
+            </thead>
+            <tbody>
+            <tbody id="myTable">
+                <tr>
+                    <td><b><a href="{{ ''.join(['/schedule/', homeData.id ]) }}">{{homeData.teamName}}</a></b> #{{homeData.ranks.rank}}</td>
+                    <td>{{ homeScore }}</td>
+                    <td>{{ "%.2f"|format(prob)}}%</td>
+    
+                </tr>
+                <tr>
+                    <td><b><a href="{{ ''.join(['/schedule/', awayData.id ]) }}">{{awayData.teamName}}</a> </b> #{{awayData.ranks.rank}}</td>
+                    <td>{{ awayScore }}</td>
+                    <td>{{ "%.2f"|format(100 - prob)}}%</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+{% endblock %}

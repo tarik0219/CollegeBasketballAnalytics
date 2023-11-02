@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<meta charset="UTF-8">
+<title>2023 College Basketball AI Rankings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
+    integrity="sha512-5Ad5E5eQ/7ObYvhnzKjMk21bscS1S7GnmvkiOu9qVdO4gs4fTbTtDY8Tc3qyqKfBtGczh03i9QIVxojd37RlZg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    /* Add your custom styles here */
+    .container {
+        margin-top: 10px;
+    }
+    h1 {
+        text-align: center;
+        font-size: 48px;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px #fff;
+    }
+
+    table {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th,
+    td {
+        font-size: 18px;
+        text-align: center;
+        vertical-align: middle !important;
+    }
+
+    img {
+        max-width: 40px;
+        max-height: 40px;
+    }
+
+    /* Styles for mobile devices */
+    @media only screen and (max-width: 1000px) {
+        .container {
+            margin-top: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px #fff;
+        }
+
+        th,
+        td {
+            font-size: 8px;
+            text-align: center;
+            vertical-align: middle !important;
+        }
+
+        img {
+            max-width: 20px;
+            max-height: 20px;
+        }
+    }
+</style>
+<div class="container">
+    <h1>2023 College Basketball AI Rankings</h1>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered table-sm table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Rank</th>
+                    <th></th>
+                    <th>Team Name</th>
+                    <th>Conf</th>
+                    <th>OFF</th>
+                    <th>DEF</th>
+                    <th>TEMPO</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tbody id="myTable">
+                {% for team in data %}
+                <tr>
+                    <td>{{team.ranks.rank}}</td>
+                    <td>
+                        <img src="{{ ''.join(['/static/pics/', team.teamName ,'.png']) }}"
+                            onerror="this.onerror=null; this.src='/static/pics/basketball.png'"
+                            alt="{{ ''.join([team.teamName]) }}" width="25" height="20"
+                            title="{{ ''.join([team.teamName]) }}"></td>
+                    <td>
+                        {% if team.ranks.rank == 1 %}
+                        <span class="badge badge-success">National Champion</span>
+                        <br>
+                        {% endif %}
+                        <a href="{{ ''.join(['/schedule/', team.id ]) }}"
+                            style="text-decoration: none;">{{team.teamName}}</a>
+                    </td>
+                    <td><a href="{{ ''.join(['/conference/', team.conference]) }}"
+                        style="text-decoration: none;">{{team.conference}}</a></td>
+                    <td>
+                        {{"%.2f"|format(team.average.offRating)}}
+                        <br>
+                        <sub> {{team.ranks.rankOff}}</sub>
+                    </td>
+                    <td>
+                        {{"%.2f"|format(team.average.defRating)}}
+                        <br>
+                        <sub> {{team.ranks.rankDef}}</sub>
+                    </td>
+                    <td>
+                        {{"%.2f"|format(team.average.TempoRating)}}
+                        <br>
+                        <sub> {{team.ranks.rankTempo}}</sub>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% endblock %}

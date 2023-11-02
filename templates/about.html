@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="static/css/website.css">
+<style>
+    body {font-family: "Times New Roman", Georgia, Serif;}
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "Playfair Display";
+      letter-spacing: 5px;
+    }
+    </style>
+<!-- About Section -->
+<div class="w3-row w3-padding-64" id="about">
+  <div class="w3-col m6 w3-padding-large w3-hide-small">
+  </div>
+
+  <div class="w3-col m6 w3-padding-large">
+    <h1 class="w3-center">About </h1><br>
+    <h5 class="w3-center">Tradition since 2020</h5>
+    <p class="w3-large">Welcome recruiters, friends, and basketball enthusiasts. This website will make it easy for you to predict college basketball games using a proprietary machine learning algorithm, while also projecting your favorite teams results. Please feel free to look around and don’t be afraid to donate to help maintain the website. </p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,297 @@
+{% extends "base.html" %}
+{% block title %}Box Score{% endblock %}
+{% block head %}
+<meta http-equiv="refresh" content="60">
+{% endblock %}
+{% block content %}
+<meta charset="UTF-8">
+<title>2023 College Basketball AI Rankings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
+    integrity="sha512-5Ad5E5eQ/7ObYvhnzKjMk21bscS1S7GnmvkiOu9qVdO4gs4fTbTtDY8Tc3qyqKfBtGczh03i9QIVxojd37RlZg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    /* Add your custom styles here */
+    .container {
+        margin-top: 10px;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 48px;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px #fff;
+    }
+
+    table {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th,
+    td {
+        font-size: 18px;
+        text-align: center;
+        vertical-align: middle !important;
+    }
+
+    img {
+        max-width: 40px;
+        max-height: 40px;
+    }
+
+    /* Styles for mobile devices */
+    @media only screen and (max-width: 1000px) {
+        .container {
+            margin-top: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px #fff;
+        }
+
+        th,
+        td {
+            font-size: 8px;
+            text-align: center;
+            vertical-align: middle !important;
+        }
+
+        img {
+            max-width: 20px;
+            max-height: 20px;
+        }
+        .table th:first-child,
+        .table td:first-child {
+        position: sticky;
+        left: 0;
+        }
+    }
+</style>
+<div class="container">
+    <h1>BoxScore</h1>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered table-sm table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    {% if score.status == 'post' and score.period == 0 %}
+                    <td style="width: 5%; color:red">POSTPONED</td>
+                    {% elif score.status == 'in' %}
+                    <td style="width: 5%; color:red">{{ score.half}} {{ score.clock}} {{ score.broadcast}}</td>
+                    {% elif score.status == 'post' and score.period > 2 %}
+                    <td style="width: 5%; color:red">Final {{score.half}} Boxscore</a></td>
+                    {% else %}
+                    <td style="width: 5%; color:red">Final</a></td>
+                    {% endif %}
+                    <th style="width: 5%">Score</th>
+                    <th style="width: 5%">Rank</th>
+                    <th style="width: 5%">Offense</th>
+                    <th style="width: 5%">Deffense</th>
+                    <th style="width: 5%">Tempo</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tbody id="myTable">
+                <tr>
+                    <th style="width: 20%">{{score.awayTeam}}</th>
+                    <th style="width: 5%">{{score.awayScore}}</th>
+                    {% if azure.awayTeamData%}
+                    <th style="width: 5%">{{azure.awayTeamData.rank}}</th>
+                    <th style="width: 5%">{{"%.2f"|format(azure.awayTeamData.average.offRating)}}</th>
+                    <th style="width: 5%">{{"%.2f"|format(azure.awayTeamData.average.defRating)}}</th>
+                    <th style="width: 5%">{{"%.2f"|format(azure.awayTeamData.average.TempoRating)}}</th>
+                    {% else %}
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <th style="width: 20%">{{score.homeTeam}}</th>
+                    <th style="width: 5%">{{score.homeScore}}</th>
+                    {% if azure.homeTeamData%}
+                    <th style="width: 5%">{{azure.homeTeamData.rank}}</th>
+                    <th style="width: 5%">{{"%.2f"|format(azure.homeTeamData.average.offRating)}}</th>
+                    <th style="width: 5%">{{"%.2f"|format(azure.homeTeamData.average.defRating)}}</th>
+                    <th style="width: 5%">{{"%.2f"|format(azure.homeTeamData.average.TempoRating)}}</th>
+                    {% else %}
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3><img src="{{ ''.join(['/static/pics/', score.awayTeam ,'.png']) }}"
+        onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([score.awayTeam]) }}"
+        width="50" height="40" title="{{ ''.join([score.awayTeam]) }}">{{ score.awayTeam }}</a></h3>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered table-sm table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th style="width: 20%">STARTERS</th>
+                    <th style="width: 5%">MIN</th>
+                    <th style="width: 5%">FG</th>
+                    <th style="width: 5%">3PT</th>
+                    <th style="width: 5%">FT</th>
+                    <th style="width: 5%">OREB</th>
+                    <th style="width: 5%">DREB</th>
+                    <th style="width: 5%">REB</th>
+                    <th style="width: 5%">AST</th>
+                    <th style="width: 5%">STL</th>
+                    <th style="width: 5%">BLK</th>
+                    <th style="width: 5%">TO</th>
+                    <th style="width: 5%">PF</th>
+                    <th style="width: 5%">PTS</th>
+                <tr>
+            </thead>
+            <tbody>
+            <tbody id="myTable">
+                {% for game in awayData %}
+                {% if loop.index == 6 %}
+                <tr>
+                    <th style="width: 20%">BENCH</th>
+                    <th style="width: 5%">MIN</th>
+                    <th style="width: 5%">FG</th>
+                    <th style="width: 5%">3PT</th>
+                    <th style="width: 5%">FT</th>
+                    <th style="width: 5%">OREB</th>
+                    <th style="width: 5%">DREB</th>
+                    <th style="width: 5%">REB</th>
+                    <th style="width: 5%">AST</th>
+                    <th style="width: 5%">STL</th>
+                    <th style="width: 5%">BLK</th>
+                    <th style="width: 5%">TO</th>
+                    <th style="width: 5%">PF</th>
+                    <th style="width: 5%">PTS</th>
+
+                <tr>
+                <tr>
+                    <td style="width: 20%">{{ game.name}}</td>
+                    <td style="width: 5%">{{ game.MIN }}</td>
+                    <td style="width: 5%">{{ game.FG }}</td>
+                    <td style="width: 5%">{{ game.TPT }}</td>
+                    <td style="width: 5%">{{ game.FT }}</td>
+                    <td style="width: 5%">{{ game.OREB }}</td>
+                    <td style="width: 5%">{{ game.DREB }}</td>
+                    <td style="width: 5%">{{ game.REB }}</td>
+                    <td style="width: 5%">{{ game.AST }}</td>
+                    <td style="width: 5%">{{ game.STL }}</td>
+                    <td style="width: 5%">{{ game.BLK }}</td>
+                    <td style="width: 5%">{{ game.TO }}</td>
+                    <td style="width: 5%">{{ game.PF }}</td>
+                    <td style="width: 5%">{{ game.PTS }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td style="width: 20%">{{ game.name}}</td>
+                    <td style="width: 5%">{{ game.MIN }}</td>
+                    <td style="width: 5%">{{ game.FG }}</td>
+                    <td style="width: 5%">{{ game.TPT }}</td>
+                    <td style="width: 5%">{{ game.FT }}</td>
+                    <td style="width: 5%">{{ game.OREB }}</td>
+                    <td style="width: 5%">{{ game.DREB }}</td>
+                    <td style="width: 5%">{{ game.REB }}</td>
+                    <td style="width: 5%">{{ game.AST }}</td>
+                    <td style="width: 5%">{{ game.STL }}</td>
+                    <td style="width: 5%">{{ game.BLK }}</td>
+                    <td style="width: 5%">{{ game.TO }}</td>
+                    <td style="width: 5%">{{ game.PF }}</td>
+                    <td style="width: 5%">{{ game.PTS }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h3><img src="{{ ''.join(['/static/pics/', score.homeTeam ,'.png']) }}"
+        onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([score.homeTeam]) }}"
+        width="50" height="40" title="{{ ''.join([score.homeTeam]) }}">{{ score.homeTeam }}</a></h3>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered table-sm table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th style="width: 20%">STARTERS</th>
+                    <th style="width: 5%">MIN</th>
+                    <th style="width: 5%">FG</th>
+                    <th style="width: 5%">3PT</th>
+                    <th style="width: 5%">FT</th>
+                    <th style="width: 5%">OREB</th>
+                    <th style="width: 5%">DREB</th>
+                    <th style="width: 5%">REB</th>
+                    <th style="width: 5%">AST</th>
+                    <th style="width: 5%">STL</th>
+                    <th style="width: 5%">BLK</th>
+                    <th style="width: 5%">TO</th>
+                    <th style="width: 5%">PF</th>
+                    <th style="width: 5%">PTS</th>
+                <tr>
+            </thead>
+            <tbody>
+            <tbody id="myTable">
+                    {% for game in homeData %}
+                    {% if loop.index == 6 %}
+                    <tr>
+                        <th style="width: 20%">BENCH</th>
+                        <th style="width: 5%">MIN</th>
+                        <th style="width: 5%">FG</th>
+                        <th style="width: 5%">3PT</th>
+                        <th style="width: 5%">FT</th>
+                        <th style="width: 5%">OREB</th>
+                        <th style="width: 5%">DREB</th>
+                        <th style="width: 5%">REB</th>
+                        <th style="width: 5%">AST</th>
+                        <th style="width: 5%">STL</th>
+                        <th style="width: 5%">BLK</th>
+                        <th style="width: 5%">TO</th>
+                        <th style="width: 5%">PF</th>
+                        <th style="width: 5%">PTS</th>
+    
+                    <tr>
+                    <tr>
+                        <td style="width: 20%">{{ game.name}}</td>
+                        <td style="width: 5%">{{ game.MIN }}</td>
+                        <td style="width: 5%">{{ game.FG }}</td>
+                        <td style="width: 5%">{{ game.TPT }}</td>
+                        <td style="width: 5%">{{ game.FT }}</td>
+                        <td style="width: 5%">{{ game.OREB }}</td>
+                        <td style="width: 5%">{{ game.DREB }}</td>
+                        <td style="width: 5%">{{ game.REB }}</td>
+                        <td style="width: 5%">{{ game.AST }}</td>
+                        <td style="width: 5%">{{ game.STL }}</td>
+                        <td style="width: 5%">{{ game.BLK }}</td>
+                        <td style="width: 5%">{{ game.TO }}</td>
+                        <td style="width: 5%">{{ game.PF }}</td>
+                        <td style="width: 5%">{{ game.PTS }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td style="width: 20%">{{ game.name}}</td>
+                        <td style="width: 5%">{{ game.MIN }}</td>
+                        <td style="width: 5%">{{ game.FG }}</td>
+                        <td style="width: 5%">{{ game.TPT }}</td>
+                        <td style="width: 5%">{{ game.FT }}</td>
+                        <td style="width: 5%">{{ game.OREB }}</td>
+                        <td style="width: 5%">{{ game.DREB }}</td>
+                        <td style="width: 5%">{{ game.REB }}</td>
+                        <td style="width: 5%">{{ game.AST }}</td>
+                        <td style="width: 5%">{{ game.STL }}</td>
+                        <td style="width: 5%">{{ game.BLK }}</td>
+                        <td style="width: 5%">{{ game.TO }}</td>
+                        <td style="width: 5%">{{ game.PF }}</td>
+                        <td style="width: 5%">{{ game.PTS }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+        </table>
+    </div>
+{% endblock %}

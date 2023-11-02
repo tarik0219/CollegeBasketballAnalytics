@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block title %}Schedule{% endblock %}
+{% block content %}
+<meta charset="UTF-8">
+<title>2023 College Basketball AI Rankings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
+    integrity="sha512-5Ad5E5eQ/7ObYvhnzKjMk21bscS1S7GnmvkiOu9qVdO4gs4fTbTtDY8Tc3qyqKfBtGczh03i9QIVxojd37RlZg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    /* Add your custom styles here */
+    .container {
+        margin-top: 10px;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 48px;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px #fff;
+    }
+    h5 {
+        text-align: center;
+        text-shadow: 2px 2px #fff;
+    }
+
+    table {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th,
+    td {
+        font-size: 18px;
+        text-align: center;
+        vertical-align: middle !important;
+    }
+
+    img {
+        max-width: 40px;
+        max-height: 40px;
+    }
+
+    /* Styles for mobile devices */
+    @media only screen and (max-width: 1000px) {
+        .hide-on-mobile {
+            display: none;
+        }
+        .date-on-mobile {
+            font-size: 5px;
+        }
+        .bigger-on-mobile {
+            font-size: 12px;
+        }
+        .container {
+            margin-top: 10px;
+        }
+
+        th {
+                font-size: 8px;
+                text-align: center;
+                vertical-align: middle !important;
+        }
+        td {
+                font-size: 7px;
+                text-align: center;
+                vertical-align: middle !important;
+        }
+
+        img {
+            max-width: 12.5px;
+            max-height: 10px;
+        }
+    }
+</style>
+<div class="container">
+    <h5>Model Results | {{date}}</h5>
+    <h5>Projection: {{records.projectionWin}}-{{records.projectionLoss}}-{{records.projectionDraw}}</h5>
+    <h5>Spread: {{records.lineWin}}-{{records.lineLoss}}-{{records.lineDraw}}</h5>
+    <h5>O/U: {{records.ouWin}}-{{records.ouLoss}}-{{records.ouDraw}}</h5>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered table-sm table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th></th>
+                    <th>Away</th>
+                    <th></th>
+                    <th></th>
+                    <th>Home</th>
+                    <th></th>
+                    <th>Projection</th>
+                    <th>Line</th>
+                    <th>O/U</th>
+                <tr>
+            </thead>
+            <tbody>
+            <tbody id="myTable">
+                {% for game in scores %}
+                <tr>
+                <td><img src="{{ ''.join(['/static/pics/', game.awayTeam ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" width="25" height="20" title="{{ ''.join([game.awayTeam]) }}" ></td>
+                <td>{{game.awayTeam}}</td>
+                <td>{{game.awayScore}}</td>
+                <td>{{game.homeScore}}</td>
+                <td>{{game.homeTeam}}</td>
+                <td><img src="{{ ''.join(['/static/pics/', game.homeTeam ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" width="25" height="20" title="{{ ''.join([game.homeTeam]) }}" ></td>
+                
+                
+                {% if game.projection == 1  %}
+                    <td style="background-color: green">{{game.awayScorePredict|int}} - {{game.homeScorePredict|int}}</td>
+                {% elif game.projection == 2  %}
+                    <td style="background-color: red">{{game.awayScorePredict|int}} - {{game.homeScorePredict|int}}</td>
+                {% else %}
+                    <td>{{game.awayScorePredict|int}} - {{game.homeScorePredict|int}}</td>
+                {% endif %}
+
+                {% if game.projectionLine == 1  %}
+                    <td style="background-color: green"><img src="{{ ''.join(['/static/pics/', game.homeTeam ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" width="25" height="20" title="{{ ''.join([game.homeTeam]) }}" >{{game.line}}</td>
+                {% elif game.projectionLine == 2  %}
+                    <td style="background-color: red"><img src="{{ ''.join(['/static/pics/', game.homeTeam ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" width="25" height="20" title="{{ ''.join([game.homeTeam]) }}" >{{game.line}}</td>
+                {% else %}
+                    <td><img src="{{ ''.join(['/static/pics/', game.homeTeam ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" width="25" height="20" title="{{ ''.join([game.homeTeam]) }}" >{{game.line}}</td>
+                {% endif %}
+                
+                <td>{{game.overUnder}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+
+{% endblock %}
