@@ -128,8 +128,8 @@ def add_line_data(data):
             if len(response['items']) == 0:
                 continue
             else:
-                line = response['items'][0]['spread']
-                overUnder = response['items'][0]['overUnder']
+                line = response['items'][0].get('spread')
+                overUnder = response['items'][0].get('overUnder')
                 data[gameId]["line"] = line
                 data[gameId]["overUnder"] = overUnder
 
