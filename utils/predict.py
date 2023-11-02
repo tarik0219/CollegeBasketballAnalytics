@@ -2,6 +2,10 @@ import pickle
 import numpy as np
 import os
 import joblib
+import os
+
+scoresFile = os.path.join(os.getcwd(), "models/scores.pkl")
+probFile = os.path.join(os.getcwd(), "models/prob.pkl")
 
 def changeBool(value):
     if value:
@@ -14,8 +18,8 @@ def make_prediction(homeData, awayData, siteType):
         siteType = changeBool(siteType)
         X = np.array([[homeData['average']['offRating'],homeData['average']['defRating'],homeData['average']['TempoRating'],awayData['average']['offRating'],awayData['average']['defRating'],awayData['average']['TempoRating'],siteType]])
         X2 = np.array([[awayData['average']['offRating'],awayData['average']['defRating'],awayData['average']['TempoRating'],homeData['average']['offRating'],homeData['average']['defRating'],homeData['average']['TempoRating'],siteType]])
-        scoresModel = pickle.load(open('models/scores.pkl', 'rb'))
-        probModel = pickle.load(open('models/prob.pkl', 'rb'))
+        scoresModel = pickle.load(open(scoresFile, 'rb'))
+        probModel = pickle.load(open(probFile, 'rb'))
 
         y_pred = scoresModel.predict(X)
         y_pred.tolist()
@@ -33,8 +37,8 @@ def make_prediction(homeData, awayData, siteType):
     else:
         siteType = changeBool(siteType)
         X = np.array([[homeData['average']['offRating'],homeData['average']['defRating'],homeData['average']['TempoRating'],awayData['average']['offRating'],awayData['average']['defRating'],awayData['average']['TempoRating'],siteType]])
-        scoresModel = pickle.load(open('models/scores.pkl', 'rb'))
-        probModel = pickle.load(open('models/prob.pkl', 'rb'))
+        scoresModel = pickle.load(open(scoresFile, 'rb'))
+        probModel = pickle.load(open(probFile, 'rb'))
 
         y_pred = scoresModel.predict(X)
         y_pred.tolist()
