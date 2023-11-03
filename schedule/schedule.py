@@ -8,7 +8,7 @@ import numpy as np
 import pytz
 from utils.predict import make_prediction, make_prediction
 from utils.constants import year, quadBool
-from utils.db import query, teamsTable
+from utils.db import get_db
 import warnings
 
 # Ignore all warnings
@@ -70,35 +70,16 @@ def is_date_in_past(date_str):
     return date < now_eastern
 
 
-# def get_team_data():
-#     team_data = {}
-#     container = connectDB('Teams')
-#     data = container.read_all_items()
-#     for team in data:
-#         team_data[team['id']] = team
-#     return team_data
+
 
 def get_team_data():
     team_data = {}
+    query, teamsTable = get_db()
     data = teamsTable.all()
     for team in data:
         team_data[team['id']] = team
     return team_data
 
-# def get_line_data(ids):
-#     boxscores = {}
-#     container = connectDB('boxscores')
-#     qry = f"""SELECT
-#             *
-#             FROM  c
-#             WHERE c.id IN ({(', '.join('"' + item + '"' for item in ids))})"""
-#     scores = container.query_items(qry, enable_cross_partition_query=True)
-#     try:
-#         for team in scores:
-#             boxscores[team['id']] = team
-#     except:
-#         pass
-#     return boxscores
 
 def convertDateTime(dateTime):
     from_zone = tz.gettz("Africa/Accra")

@@ -2,6 +2,7 @@ import requests
 import json
 from datetime import datetime
 from dateutil import tz
+from utils.cahce import get_cache
 
 
 def convertDateTime(dateTime):
@@ -151,11 +152,20 @@ def get_scores(date):
         return {}
     
 def get_line_data(gameId):
+    query, cache = get_cache()
+    cahceResponse = cache.search(query.gameId == gameId)
+    if len(cahceResponse) != 0:
+        print("-------")
+        print(cahceResponse)
+        return json.loads(cahceResponse[0]["response"])
     url = "https://sports.core.api.espn.com/v2/sports/basketball/leagues/mens-college-basketball/events/{}/competitions/{}/odds?=".format(gameId,gameId)
-
     payload={}
     headers = {}
-
     response = requests.request("GET", url, headers=headers, data=payload)
-
+    cache.insert(
+        {
+            "gameId":gameId,
+            "response": json.dumps(response.json())
+        }
+    )
     return response.json()

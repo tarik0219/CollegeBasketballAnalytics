@@ -5,6 +5,8 @@ import os
 dbfile = os.path.join(os.getcwd(), "cbbweb.json")
 
 
-db = TinyDB(dbfile)
-query = Query()
-teamsTable = db.table('teams')
+def get_db():
+    db = TinyDB(dbfile)
+    query = Query()
+    teamsTable = db.table('teams')
+    return query,teamsTable

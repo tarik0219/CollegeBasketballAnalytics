@@ -13,8 +13,16 @@ import numpy as np
 from werkzeug.datastructures import MultiDict
 from utils.predict import make_prediction
 import warnings
-from utils.db import query,teamsTable
+from utils.db import get_db
+from utils.cahce import get_cache
 import concurrent.futures
+import threading
+import requests
+import json
+from tinydb import TinyDB, Query
+from tinydb.operations import set
+import os
+from utils.cahce import get_cache
 warnings.filterwarnings(action='ignore')
 
 
@@ -27,6 +35,7 @@ class ScoreSearch(FlaskForm):
 
 
 def add_info(data):
+    query, teamsTable = get_db()
     teams = teamsTable.all()
     team_data = {}
     for item in teams:
@@ -108,32 +117,50 @@ def change_siteType(data):
             data[count]['siteType'] = "No"
     return data
 
+
+# file_lock = threading.Lock()
+cache_lock = threading.Lock()
 def add_line_data(data):
-    # Create a ThreadPoolExecutor with a specified number of worker threads
-    # Adjust the number of threads based on your needs
     num_threads = 10  # You can change this to the desired number of parallel threads
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
-        # Use a list to collect the futures
         futures = []
         for gameId in data:
-            print(gameId)
-            # Submit each API call as a separate task
             future = executor.submit(get_line_data, gameId)
             futures.append(future)
 
-        for i, gameId in enumerate(data):
-            # Retrieve the result of each future (blocks until the result is available)
-            response = futures[i].result()
+    for i, gameId in enumerate(data):
+        response = futures[i].result()
 
-            if len(response['items']) == 0:
-                continue
-            else:
-                line = response['items'][0].get('spread')
-                overUnder = response['items'][0].get('overUnder')
-                data[gameId]["line"] = line
-                data[gameId]["overUnder"] = overUnder
-
+        if len(response['items']) == 0:
+            continue
+        else:
+            line = response['items'][0].get('spread')
+            overUnder = response['items'][0].get('overUnder')
+            data[gameId]["line"] = line
+            data[gameId]["overUnder"] = overUnder
     return data
+
+def get_line_data(gameId):
+    with cache_lock:
+        query, cache = get_cache()
+        cacheResponse = cache.search(query.gameId == gameId)
+        if len(cacheResponse) != 0:
+            print("Cache hit for gameId:", gameId)
+            return json.loads(cacheResponse[0]["response"])
+    url = "https://sports.core.api.espn.com/v2/sports/basketball/leagues/mens-college-basketball/events/{}/competitions/{}/odds?=".format(gameId, gameId)
+    payload = {}
+    headers = {}
+    response = requests.request("GET", url, headers=headers, data=payload)
+    with cache_lock:
+        cache.insert(
+            {
+                "gameId": gameId,
+                "response": json.dumps(response.json())
+            }
+        )
+    return response.json()
+
+
 
 @bs.route('/scores/<datesearch>/<search>' , methods=['GET','POST'])
 def box_score(datesearch,search):

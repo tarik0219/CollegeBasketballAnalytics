@@ -1,18 +1,16 @@
 from flask import Blueprint, render_template
 from tinydb import TinyDB, Query
 from tinydb.operations import set
+from utils.db import get_db
 
 conference = Blueprint('conference', __name__)
 
-db = TinyDB('cbbweb.json')
-query = Query()
-teamsTable = db.table('teams')
 
-def get_teams(conf):
+def get_teams(conf,query,teamsTable):
     team_data = teamsTable.search(query.conference == conf)
     return team_data
 
-def get_all_conf_data():
+def get_all_conf_data(query,teamsTable):
     teams = teamsTable.all()
     conf_data = {}
     for item in teams:
@@ -37,17 +35,18 @@ def get_all_conf_data():
         item['conference'] = key
         data.append(item)
     return data
-    return 0
 
 
 @conference.route('/conference/<conf>')
 def conference_stadnings(conf):
-    data = get_teams(conf)
+    query,teamsTable = get_db()
+    data = get_teams(conf,query,teamsTable)
     data.sort(key=lambda x: (x["record"]['confProjectedWin'],x["record"]['confWin']), reverse=True)
     return render_template('conference.html', data=data, conference = conf)
 
 @conference.route('/conference')
 def conference_rank():
-    data = get_all_conf_data()
+    query,teamsTable = get_db()
+    data = get_all_conf_data(query,teamsTable)
     data.sort(key=lambda x: x["average"], reverse=False)
     return render_template('conferenceRanks.html', data=data)
