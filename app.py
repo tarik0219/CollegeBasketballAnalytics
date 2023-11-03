@@ -11,8 +11,8 @@ from predict.predict import predict
 # from history.history import history
 # from bracketology.bracketology import bracket
 from donate.donate import donate
-# from about.about import about
-# from disclaimer.disclaimer import  disclaimer
+from about.about import about
+from disclaimer.disclaimer import  disclaimer
 
 
 
@@ -32,8 +32,8 @@ app.register_blueprint(predict)
 # app.register_blueprint(history)
 # app.register_blueprint(bracket)
 app.register_blueprint(donate)
-# app.register_blueprint(about)
-# app.register_blueprint(disclaimer)
+app.register_blueprint(about)
+app.register_blueprint(disclaimer)
 
 @app.context_processor
 def inject_now():

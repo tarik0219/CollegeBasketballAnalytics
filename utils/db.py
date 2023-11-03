@@ -10,3 +10,7 @@ def get_db():
     query = Query()
     teamsTable = db.table('teams')
     return query,teamsTable
+
+db = TinyDB(dbfile)
+query = Query()
+teamsTable = db.table('teams')

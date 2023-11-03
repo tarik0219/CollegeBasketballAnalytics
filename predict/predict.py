@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_wtf import FlaskForm
 from wtforms import SelectField,SubmitField,StringField,validators
-from utils.db import get_db
+from utils.db import teamsTable,query,get_db
 from utils.predict import make_prediction
 import random
 from tinydb.operations import set
@@ -11,7 +11,6 @@ from werkzeug.datastructures import MultiDict
 predict = Blueprint('predict', __name__)
 
 class PredictGame(FlaskForm):
-    query, teamsTable = get_db()
     data = teamsTable.all()
     teams = []
     for team in data:
@@ -21,7 +20,7 @@ class PredictGame(FlaskForm):
     neutral = SelectField('Neutral Venue', choices = ['No','Yes'])
 
 def get_team_data_name(teamName):
-    query, teamsTable = get_db()
+    query,teamsTable = get_db() 
     data = teamsTable.search(query.teamName == teamName)
     for item in data:
         return item
@@ -53,6 +52,5 @@ def predictresults(hometeam,awayteam,neutral):
     homeScore,awayScore,prob = make_prediction(homeData,awayData,neutral)
     prob = prob * 100
     return render_template("predictResults.html", homeData = homeData, awayData = awayData, homeScore = homeScore, awayScore = awayScore, prob = prob)
-
 
 
