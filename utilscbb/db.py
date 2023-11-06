@@ -19,7 +19,9 @@ def get_db():
 
 
 
-
-db = TinyDB(dbfile)
-query = Query()
-teamsTable = db.table('teams')
+try:
+    db = TinyDB(dbfile)
+    query = Query()
+    teamsTable = db.table('teams')
+except:
+    pass

@@ -48,9 +48,8 @@ print('Updated Bart Data')
 #calculate averages
 try:
     calculate.updateStats(query,teamsTable)
-except:
-    print("Unable to calculate Stats")
-    pass
+except Exception as e:
+    print("Unable to calculate Stats Error: ", e)
 
 
 
@@ -61,15 +60,15 @@ try:
     games = get_games.add_team_data(teamsTable,query,games)
     games = get_games.add_prediction(gamesFile,games)
     print('Added Games')
-except:
-    print("Did not add games")
+except Exception as e:
+    print("Did not add games Error: ", e)
 
 
 try:    
     get_games.add_scores(previous_date,gamesFile)
     print('Added Scores')
-except:
-    print("Did not add previous day scores")
+except Exception as e:
+    print("Did not add previous day scores Error: ", e)
 
 
 
