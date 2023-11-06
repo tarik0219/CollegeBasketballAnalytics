@@ -4,7 +4,6 @@ from datetime import datetime
 from dateutil import tz
 import pickle
 import numpy as np
-from azure.cosmos import  CosmosClient
 import warnings
 import pytz
 import os

@@ -2,7 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import requests
 import json
-from azure.cosmos import exceptions, CosmosClient, PartitionKey
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))

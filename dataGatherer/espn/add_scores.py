@@ -2,7 +2,6 @@ import requests
 import json
 from datetime import datetime, timedelta
 from dateutil import tz
-from azure.cosmos import  CosmosClient
 import numpy as np
 import pytz
 import sys 

@@ -1,4 +1,3 @@
-#from azure.cosmos import exceptions, CosmosClient, PartitionKey
 from bs4 import BeautifulSoup, SoupStrainer
 import requests
 import re

@@ -3,7 +3,6 @@ import requests # library to handle requests
 from bs4 import BeautifulSoup # library to parse HTML documents
 import re
 import pickle
-from azure.cosmos import  CosmosClient
 from joblib import load
 
 with open('conf_kp_sportsreference.pickle', 'rb') as f:
@@ -13,16 +12,6 @@ with open('id_kp.pkl', 'rb') as f:
     id_kp = pickle.load(f)
 kp_id = {v: k for k, v in id_kp.items()}
 
-def connectDB(container_name):
-    endpoint = "https://cbbweb.documents.azure.com:443/"
-    key = "Y9QCr3bR680DhZc8CcOD96FlZXnC0RSuA28cbLv2UCItlCmAWjRk3gq8SMxn4HXEarNRUeiyplkG7ooAPuguZQ=="
-
-    client = CosmosClient(endpoint, key)
-    database_name = 'Teams'
-    database = client.get_database_client(database_name)
-    container = database.get_container_client(container_name)
-
-    return container
 
 def get_records_data():
     team_data = {}
