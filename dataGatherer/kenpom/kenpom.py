@@ -60,7 +60,6 @@ def GetKenpomData(kp_id):
                 send['id'] = teamId
                 kenpom.append(send)
             except:
-                print(send)
                 pass
             
     return kenpom

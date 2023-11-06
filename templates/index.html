@@ -88,10 +88,6 @@
                             alt="{{ ''.join([team.teamName]) }}" width="25" height="20"
                             title="{{ ''.join([team.teamName]) }}"></td>
                     <td>
-                        {% if team.ranks.rank == 1 %}
-                        <span class="badge badge-success">National Champion</span>
-                        <br>
-                        {% endif %}
                         <a href="{{ ''.join(['/schedule/', team.id ]) }}"
                             style="text-decoration: none;">{{team.teamName}}</a>
                     </td>
