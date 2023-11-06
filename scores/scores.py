@@ -53,12 +53,14 @@ def add_info(data):
 
 def add_prediction(data,date):
     for gameId,value in data.items():
-        if data[gameId]['homeData'] != None and data[gameId]['awayData'] != None and datetime.now().date() < datetime.strptime(date, '%Y%m%d').date(): 
+        if data[gameId]['homeData'] != None and data[gameId]['awayData'] != None: 
+            print("yes")
             home, away, prob = make_prediction(data[gameId]['homeData'], data[gameId]['awayData'], data[gameId]['siteType'])
             data[gameId]['homeScorePredict'] = home
             data[gameId]['awayScorePredict'] = away
             data[gameId]['prob'] = prob
         else:
+            print("no")
             data[gameId]['homeScorePredict'] = None   
             data[gameId]['awayScorePredict'] = None
             data[gameId]['prob'] = None
@@ -68,7 +70,6 @@ def query_data(data,search):
     new_data = {}
     if search == "TOP 25":
         for gameId,value in data.items():
-            print(value)
             try:
                 if value['homeData']['ranks']['rank'] <= 25:
                     new_data[gameId] = value
