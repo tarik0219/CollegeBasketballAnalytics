@@ -10,7 +10,7 @@ from dataGatherer.espn import get_games
 from dataGatherer.espn import add_scores
 import datetime
 import warnings
-from dataGatherer import schedule
+from dataGatherer.record import schedule
 from utilscbb.constants import year
 
 # Ignore all warnings
@@ -24,10 +24,18 @@ previous_date = previous_date.strftime("%Y%m%d")
 
 query,teamsTable = db.get_db_pa()
 
+print('Getting Kenpom Data')
 kenpomTeams = kenpom.UpdateKenpom()
+print('Retrieved Kenpom Data')
+
+print('Getting Barttorvik Data')
 barttorvikTeams = barttorvik.UpdateBart()
+print('Retrieved Barttorvik Data')
+
+
 
 #Update Kenpom Stats
+print('Updating Kenpom Data in DB')
 for team in kenpomTeams:
     try:
         teamsTable.update(set("kenpom", team), query.id == team['id'])
@@ -38,6 +46,7 @@ for team in kenpomTeams:
 print('Updated Kenpom Data')
 
 #Update Bart Stats
+print('Updating Barttorvik Data in DB')
 for team in barttorvikTeams:
     try:
         teamsTable.update(set("barttorvik", team), query.id == team['id'])
@@ -54,8 +63,10 @@ except Exception as e:
     print("Unable to calculate Stats Error: ", e)
 
 #calculate records
+print("Calculating Records")
 try:
     schedule.add_records_teams(year,teamsTable,query)
+    print("Calculated Records")
 except Exception as e:
     print("Unable to calculate records Error: ", e)
 

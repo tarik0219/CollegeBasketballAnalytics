@@ -10,7 +10,6 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from utilscbb.predict import make_prediction
-from utils.connectDb import connectToDB
 from tinydb.operations import set
 from multiprocessing import Pool
 
@@ -274,14 +273,5 @@ def add_records_teams(year,teamsTable,query):
     data = get_team_data(year,teamsTable,query)
     for team in data:
         teamsTable.update(set("record", team), query.id == team['id'])
-
-
-if __name__ == "__main__":
-    warnings.filterwarnings('ignore') 
-    year = "2024"
-    data = get_team_data(year)
-
-    teamsTable, query = connectToDB()
-    add_records_teams(data)
 
 
