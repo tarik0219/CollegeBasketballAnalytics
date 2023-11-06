@@ -4,7 +4,7 @@ from utilscbb.constants import dbFileName,PAdbFileName
 
 dbfile = os.path.join(os.getcwd(), dbFileName)
 
-PAdbfile = os.path.join(os.getcwd(), dbFileName)
+PAdbfile = os.path.join(os.getcwd(), PAdbFileName)
 def get_db_pa():
     db = TinyDB(PAdbfile)
     query = Query()
