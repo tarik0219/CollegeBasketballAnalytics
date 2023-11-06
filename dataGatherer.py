@@ -20,7 +20,7 @@ date_string = current_date.strftime("%Y%m%d")
 previous_date = current_date - datetime.timedelta(days=1)
 previous_date = previous_date.strftime("%Y%m%d")
 
-query,teamsTable = db.get_db()
+query,teamsTable = db.get_db_pa()
 
 kenpomTeams = kenpom.UpdateKenpom()
 barttorvikTeams = barttorvik.UpdateBart()
@@ -55,7 +55,7 @@ except:
 
 
 try:
-    gamesFile = os.path.join(os.getcwd(), constants.dataFile)
+    gamesFile = os.path.join(os.getcwd(), constants.PAdataFile)
     games = get_games.get_games(date_string)
     games = get_games.add_odds(games)
     games = get_games.add_team_data(teamsTable,query,games)

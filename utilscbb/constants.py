@@ -38,3 +38,8 @@ quadBool = False
 dbFileName = 'data/cbbweb.json'
 cacheFileName = 'data/cache.json'
 dataFile = "data/games.csv"
+
+
+PAdbFileName = 'CollegeBasketballAnalytics/data/cbbweb.json'
+PAcacheFileName = 'CollegeBasketballAnalytics/data/cache.json'
+PAdataFile = "CollegeBasketballAnalytics/data/games.csv"
