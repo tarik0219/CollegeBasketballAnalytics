@@ -69,13 +69,7 @@ def get_dict_data_bt(test,year):
     return barttorvik
 
 def UpdateBart():
-    # container = connectToContainer("Teams")
-    bartData = get_dict_data_bt(True,"2023")
-    # for data in bartData:
-    #     item = container.read_item(data, partition_key = data)
-    #     item["barttorvik"] = bartData[data]
-    #     print(item['teamName'])
-    #     container.upsert_item(item)
+    bartData = get_dict_data_bt(True,"2024")
     return bartData
     
 if __name__ == "__main__":
