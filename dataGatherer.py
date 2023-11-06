@@ -29,21 +29,22 @@ barttorvikTeams = barttorvik.UpdateBart()
 for team in kenpomTeams:
     try:
         teamsTable.update(set("kenpom", team), query.id == team['id'])
+        teamsTable.update(set("barttorvik", team), query.id == team['id'])
     except:
-        if len(team) != 0:
+        if bool(team):
             print(team)
         pass
 print('Updated Kenpom Data')
 
 #Update Bart Stats
-for team in barttorvikTeams:
-    try:
-        teamsTable.update(set("barttorvik", team), query.id == team['id'])
-    except:
-        if len(team) != 0:
-            print(team)
-        pass
-print('Updated Bart Data')
+# for team in barttorvikTeams:
+#     try:
+#         teamsTable.update(set("barttorvik", team), query.id == team['id'])
+#     except:
+#         if bool(team):
+#             print(team)
+#         pass
+# print('Updated Bart Data')
 
 #calculate averages
 try:

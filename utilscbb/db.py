@@ -6,6 +6,7 @@ dbfile = os.path.join(os.getcwd(), dbFileName)
 
 PAdbfile = os.path.join(os.getcwd(), PAdbFileName)
 def get_db_pa():
+    print(dbfile)
     db = TinyDB(PAdbfile)
     query = Query()
     teamsTable = db.table('teams')
