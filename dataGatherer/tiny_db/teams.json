@@ -1,0 +1,33 @@
+{
+    "id": "2509",
+    "kenpom": {
+        "name": "Purdue",
+        "rank": 1,
+        "conference": "B10",
+        "offRating": 114.9,
+        "defRating": 88.3,
+        "TempoRating": 68.8,
+        "id": "2509"
+    },
+    "barttorvik": {
+        "name": "Purdue",
+        "rank": 7,
+        "offRating": 117.9,
+        "defRating": 93.7,
+        "TempoRating": 63.9,
+        "id": "2509"
+    },
+    "average": {
+        "offRating": 116.4,
+        "defRating": 91.0,
+        "TempoRating": 66.35
+    },
+    "ranks": {
+        "stat_rank": 4,
+        "rank": 4,
+        "rankOff": 4,
+        "rankDef": 15,
+        "rankTempo": 331
+    },
+    "teamName": "Purdue Boilermakers"
+}

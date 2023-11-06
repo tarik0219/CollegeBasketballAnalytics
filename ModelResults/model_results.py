@@ -4,7 +4,7 @@ from wtforms import SelectField,SubmitField,StringField,validators
 from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired
 from datetime import datetime, timedelta
-from utils.connectDB import connectDB
+from utilscbb.connectDB import connectDB
 
 modelResults = Blueprint('modelResults', __name__)
 

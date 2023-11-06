@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 from tinydb import TinyDB, Query
 from tinydb.operations import set
-from utils.db import get_db
+from utilscbb.db import get_db
 
 conference = Blueprint('conference', __name__)
 

@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_wtf import FlaskForm
 from wtforms import SelectField,SubmitField,StringField,validators
-from utils.db import teamsTable,query,get_db
-from utils.predict import make_prediction
+from utilscbb.db import teamsTable,query,get_db
+from utilscbb.predict import make_prediction
 import random
 from tinydb.operations import set
 from tinydb import TinyDB, Query

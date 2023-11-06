@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
-from utils.connectDB import connectDB
-from utils.espn import get_scores,get_espn_boxscore
+from utilscbb.connectDB import connectDB
+from utilscbb.espn import get_scores,get_espn_boxscore
 
 boxscore = Blueprint('boxscore', __name__)
 

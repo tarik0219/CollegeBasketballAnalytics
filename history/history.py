@@ -1,10 +1,10 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_wtf import FlaskForm
 from wtforms import SelectField,SubmitField,StringField,validators
-from utils.connectDB import connectDB
+from utilscbb.connectDB import connectDB
 import random
 from werkzeug.datastructures import MultiDict
-from utils.predict import make_prediction
+from utilscbb.predict import make_prediction
 
 
 

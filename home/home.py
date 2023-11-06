@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from utils.db import get_db
+from utilscbb.db import get_db
 
 home = Blueprint('home', __name__)
 
