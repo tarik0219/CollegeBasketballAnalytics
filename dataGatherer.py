@@ -10,6 +10,8 @@ from dataGatherer.espn import get_games
 from dataGatherer.espn import add_scores
 import datetime
 import warnings
+from dataGatherer import schedule
+from utilscbb.constants import year
 
 # Ignore all warnings
 warnings.filterwarnings("ignore")
@@ -50,6 +52,12 @@ try:
     calculate.updateStats(query,teamsTable)
 except Exception as e:
     print("Unable to calculate Stats Error: ", e)
+
+#calculate records
+try:
+    schedule.add_records_teams(year,teamsTable,query)
+except Exception as e:
+    print("Unable to calculate records Error: ", e)
 
 
 

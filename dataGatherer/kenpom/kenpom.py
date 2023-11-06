@@ -65,15 +65,7 @@ def GetKenpomData(kp_id):
     return kenpom
 
 def UpdateKenpom():
-    #container = connectToContainer("Teams")
     kenpomData = GetKenpomData({v: k for k, v in id_kp.items()})
-    # for data in kenpomData:
-    #     item = container.read_item(data, partition_key = data)
-    #     conference = conf_kp_sportsreference[kenpomData[data]['conference']]
-    #     item["kenpom"] = kenpomData[data]
-    #     item['conference'] = conference
-    #     container.upsert_item(item)
-
     return kenpomData
 
 if __name__ == "__main__":

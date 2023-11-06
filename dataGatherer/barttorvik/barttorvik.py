@@ -64,7 +64,6 @@ def get_dict_data_bt(test,year):
             send['id'] = teamId
             barttorvik.append(send)
         except:
-            print(send)
             pass
     return barttorvik
 

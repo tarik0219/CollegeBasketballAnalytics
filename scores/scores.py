@@ -54,13 +54,11 @@ def add_info(data):
 def add_prediction(data,date):
     for gameId,value in data.items():
         if data[gameId]['homeData'] != None and data[gameId]['awayData'] != None: 
-            print("yes")
             home, away, prob = make_prediction(data[gameId]['homeData'], data[gameId]['awayData'], data[gameId]['siteType'])
             data[gameId]['homeScorePredict'] = home
             data[gameId]['awayScorePredict'] = away
             data[gameId]['prob'] = prob
         else:
-            print("no")
             data[gameId]['homeScorePredict'] = None   
             data[gameId]['awayScorePredict'] = None
             data[gameId]['prob'] = None
@@ -146,7 +144,6 @@ def get_line_data(gameId):
         query, cache = get_cache()
         cacheResponse = cache.search(query.gameId == gameId)
         if len(cacheResponse) != 0:
-            print("Cache hit for gameId:", gameId)
             return json.loads(cacheResponse[0]["response"])
     url = "https://sports.core.api.espn.com/v2/sports/basketball/leagues/mens-college-basketball/events/{}/competitions/{}/odds?=".format(gameId, gameId)
     payload = {}

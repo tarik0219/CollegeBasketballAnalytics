@@ -67,12 +67,9 @@ def is_date_in_past(date_str):
     return date < now_eastern
 
 
-def get_team_data(year):
+def get_team_data(year,teamsTable,query):
     team_data = {}
     all_records = []
-    #container = connectToContainer('Teams')
-    #data = container.read_all_items()
-    teamsTable, query = connectToDB()
     data = teamsTable.all()
     for team in data:
         team_data[team['id']] = team
@@ -271,11 +268,10 @@ def calculate_records(data):
     records['projectedLoss'] = loss + records['loss']
     records['confProjectedWin'] = confWin + records['confWin']
     records['confProjectedLoss'] = confLoss + records['confLoss']
-    records['probs'] = probs
     return records
 
-def add_records_teams(data):
-    teamsTable, query = connectToDB()
+def add_records_teams(year,teamsTable,query):
+    data = get_team_data(year,teamsTable,query)
     for team in data:
         teamsTable.update(set("record", team), query.id == team['id'])
 
@@ -286,10 +282,6 @@ if __name__ == "__main__":
     data = get_team_data(year)
 
     teamsTable, query = connectToDB()
-    data = teamsTable.all()
-    team_data = {}
-    for team in data:
-        team_data[team['id']] = team
     add_records_teams(data)
 
 
