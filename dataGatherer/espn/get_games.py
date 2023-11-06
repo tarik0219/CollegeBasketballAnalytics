@@ -5,10 +5,10 @@ from dateutil import tz
 import pytz
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from utils.predict import make_prediction,make_prediction_cover
-from utils.connectDb import connectToDB
 import csv
+import pickle
+import numpy as np
+import os
 
 def convertDateTime(dateTime):
     from_zone = tz.gettz("Africa/Accra")
@@ -22,6 +22,51 @@ def convertDateTime(dateTime):
     time = eastern.split(" ")[1].split("-")[0]
     
     return date, time
+
+def changeBool(value):
+    if value:
+        return 1
+    else:
+        return 0
+
+def make_prediction(homeData,awayData,siteType):
+    path = os.path.realpath(__file__)
+    dir = os.path.dirname(path)
+    scoresFile = dir.replace('utils', 'models') + '/scores.pkl'
+    probFile = dir.replace('utils', 'models') + '/prob.pkl'
+    
+    scoresModel = pickle.load(open(scoresFile, 'rb'))
+    probModel = pickle.load(open(probFile, 'rb'))
+
+    siteType = changeBool(siteType)
+
+    X = np.array([[homeData['average']['offRating'],homeData['average']['defRating'],homeData['average']['TempoRating'],awayData['average']['offRating'],awayData['average']['defRating'],awayData['average']['TempoRating'],siteType]])
+
+    y_pred = scoresModel.predict(X)
+    y_pred.tolist()
+    y_prob = probModel.predict_proba(X)
+    y_prob.tolist()
+    
+
+    if siteType == 1:
+        X2 = np.array([[awayData['average']['offRating'],awayData['average']['defRating'],awayData['average']['TempoRating'],homeData['average']['offRating'],homeData['average']['defRating'],homeData['average']['TempoRating'],siteType]])
+
+        y_pred_2 = scoresModel.predict(X2)
+        y_pred_2.tolist()
+        y_prob_2 = probModel.predict_proba(X2)
+        y_prob_2.tolist()
+
+        homeScore = round((y_pred[0][0] + y_pred_2[0][1])/2,1)
+        awayScore = round((y_pred[0][1] + y_pred_2[0][0])/2,1)
+        prob = round((y_prob[0][1]+y_prob_2[0][0])/2,4)
+    
+    else:
+        homeScore = round(y_pred[0][0],1)
+        awayScore = round(y_pred[0][1],1)
+        prob = round(y_prob[0][1],4)
+
+    return homeScore,awayScore,prob 
+
 
 def get_games(date):
     url = 'http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard'
