@@ -117,19 +117,10 @@ def change_siteType(data):
     return data
 
 
-# file_lock = threading.Lock()
-cache_lock = threading.Lock()
+
 def add_line_data(data):
-    num_threads = 10  # You can change this to the desired number of parallel threads
-    with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
-        futures = []
-        for gameId in data:
-            future = executor.submit(get_line_data, gameId)
-            futures.append(future)
-
     for i, gameId in enumerate(data):
-        response = futures[i].result()
-
+        response = get_line_data(gameId)
         if len(response['items']) == 0:
             continue
         else:
@@ -140,22 +131,20 @@ def add_line_data(data):
     return data
 
 def get_line_data(gameId):
-    with cache_lock:
-        query, cache = get_cache()
-        cacheResponse = cache.search(query.gameId == gameId)
-        if len(cacheResponse) != 0:
-            return json.loads(cacheResponse[0]["response"])
+    query, cache = get_cache()
+    cacheResponse = cache.search(query.gameId == gameId)
+    if len(cacheResponse) != 0:
+        return json.loads(cacheResponse[0]["response"])
     url = "https://sports.core.api.espn.com/v2/sports/basketball/leagues/mens-college-basketball/events/{}/competitions/{}/odds?=".format(gameId, gameId)
     payload = {}
     headers = {}
     response = requests.request("GET", url, headers=headers, data=payload)
-    with cache_lock:
-        cache.insert(
-            {
-                "gameId": gameId,
-                "response": json.dumps(response.json())
-            }
-        )
+    cache.insert(
+        {
+            "gameId": gameId,
+            "response": json.dumps(response.json())
+        }
+    )
     return response.json()
 
 
