@@ -22,7 +22,10 @@ date_string = current_date.strftime("%Y%m%d")
 previous_date = current_date - datetime.timedelta(days=1)
 previous_date = previous_date.strftime("%Y%m%d")
 
-query,teamsTable = db.get_db_pa()
+try:
+    query,teamsTable = db.get_db_pa()
+except:
+    query,teamsTable = db.get_db()
 
 print('Getting Kenpom Data')
 kenpomTeams = kenpom.UpdateKenpom()
