@@ -139,12 +139,6 @@ def get_line_data(gameId):
     payload = {}
     headers = {}
     response = requests.request("GET", url, headers=headers, data=payload)
-    cache.insert(
-        {
-            "gameId": gameId,
-            "response": json.dumps(response.json())
-        }
-    )
     return response.json()
 
 

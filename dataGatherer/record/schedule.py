@@ -73,7 +73,6 @@ def get_team_data(year,teamsTable,query):
     for team in data:
         team_data[team['id']] = team
     for key in team_data:
-        print(team_data[key]['teamName'])
         data = combine_schedule(key, year, team_data)
         records = calculate_records(data)
         records['id'] = key

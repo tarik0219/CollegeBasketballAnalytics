@@ -12,6 +12,9 @@ import datetime
 import warnings
 from dataGatherer.record import schedule
 from utilscbb.constants import year
+from utilscbb.cahce import get_cache
+import requests
+import json
 
 # Ignore all warnings
 warnings.filterwarnings("ignore")
@@ -74,10 +77,30 @@ except Exception as e:
     print("Unable to calculate records Error: ", e)
 
 
+#Add to cache
+def add_to_cache_line_data(games):
+    print("Adding to cache")
+    query, cache = get_cache()
+    for game in games:
+        gameId = game['id']
+        url = "https://sports.core.api.espn.com/v2/sports/basketball/leagues/mens-college-basketball/events/{}/competitions/{}/odds?=".format(gameId, gameId)
+        payload = {}
+        headers = {}
+        response = requests.request("GET", url, headers=headers, data=payload)
+        cache.insert(
+            {
+                "gameId": gameId,
+                "response": json.dumps(response.json())
+            }
+        )
+    print("Added to cache")
+    return
 
+#Add to model
 try:
     gamesFile = os.path.join(os.getcwd(), constants.PAdataFile)
     games = get_games.get_games(date_string)
+    add_to_cache_line_data(games)
     games = get_games.add_odds(games)
     games = get_games.add_team_data(teamsTable,query,games)
     games = get_games.add_prediction(gamesFile,games)
