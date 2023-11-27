@@ -12,7 +12,7 @@ import datetime
 import warnings
 from dataGatherer.record import schedule
 from utilscbb.constants import year, PAcacheFileName, PAcacheFileNameCopy
-from utilscbb.cahce import get_cache
+from utilscbb.cahce import get_pa_cache, get_cache
 import requests
 import json
 
@@ -80,7 +80,10 @@ except Exception as e:
 #Add to cache
 def add_to_cache_line_data(games):
     print("Adding to cache")
-    query, cache = get_cache()
+    try: 
+        query, cache = get_pa_cache()
+    except:
+        query, cache = get_cache()
     for game in games:
         gameId = game['id']
         url = "https://sports.core.api.espn.com/v2/sports/basketball/leagues/mens-college-basketball/events/{}/competitions/{}/odds?=".format(gameId, gameId)
