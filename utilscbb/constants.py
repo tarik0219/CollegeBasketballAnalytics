@@ -36,10 +36,14 @@ CONF = ['ALL',
 year = "2024"
 quadBool = False
 dbFileName = 'data/cbbweb.json'
+dbFileNameCopy = 'data/cbbweb_copy.json'
 cacheFileName = 'data/cache.json'
+cacheFileNameCopy = 'data/cache_copy.json'
 dataFile = "data/games.csv"
 
 
 PAdbFileName = 'CollegeBasketballAnalytics/data/cbbweb.json'
+PAdbFileNameCopy = 'CollegeBasketballAnalytics/data/cbbweb_copy.json'
 PAcacheFileName = 'CollegeBasketballAnalytics/data/cache.json'
+PAcacheFileNameCopy = 'CollegeBasketballAnalytics/data/cache_copy.json'
 PAdataFile = "CollegeBasketballAnalytics/data/games.csv"
