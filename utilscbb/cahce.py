@@ -13,10 +13,3 @@ def get_cache():
     query = Query()
     cache = db.table('cache')
     return query,cache
-
-def get_pa_cache():
-    dbfile = os.path.join(os.getcwd(), PAcacheFileNameCopy)
-    db = TinyDB(dbfile)
-    query = Query()
-    cache = db.table('cache')
-    return query,cache

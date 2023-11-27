@@ -12,7 +12,7 @@ import datetime
 import warnings
 from dataGatherer.record import schedule
 from utilscbb.constants import year, PAcacheFileName, PAcacheFileNameCopy
-from utilscbb.cahce import get_pa_cache
+from utilscbb.cahce import get_cache
 import requests
 import json
 
@@ -80,14 +80,14 @@ except Exception as e:
 #Add to cache
 def add_to_cache_line_data(games):
     print("Adding to cache")
-    query, cache = get_pa_cache()
+    query, cache = get_cache()
     for game in games:
         gameId = game['id']
         url = "https://sports.core.api.espn.com/v2/sports/basketball/leagues/mens-college-basketball/events/{}/competitions/{}/odds?=".format(gameId, gameId)
         payload = {}
         headers = {}
         response = requests.request("GET", url, headers=headers, data=payload)
-        cache.insert(
+        cache.upsert(
             {
                 "gameId": gameId,
                 "response": json.dumps(response.json())
@@ -114,10 +114,3 @@ try:
     print('Added Scores')
 except Exception as e:
     print("Did not add previous day scores Error: ", e)
-
-
-try:
-    db.copy_file(db.PAdbfilecopy,db.PAdbfile)
-    db.copy_file(PAcacheFileNameCopy,PAcacheFileName)
-except:
-    pass
