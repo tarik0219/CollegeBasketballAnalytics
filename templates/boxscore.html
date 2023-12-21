@@ -87,10 +87,6 @@
                     <td style="width: 5%; color:red">Final</a></td>
                     {% endif %}
                     <th style="width: 5%">Score</th>
-                    <th style="width: 5%">Rank</th>
-                    <th style="width: 5%">Offense</th>
-                    <th style="width: 5%">Deffense</th>
-                    <th style="width: 5%">Tempo</th>
                 </tr>
             </thead>
             <tbody>
@@ -98,32 +94,10 @@
                 <tr>
                     <th style="width: 20%">{{score.awayTeam}}</th>
                     <th style="width: 5%">{{score.awayScore}}</th>
-                    {% if azure.awayTeamData%}
-                    <th style="width: 5%">{{azure.awayTeamData.rank}}</th>
-                    <th style="width: 5%">{{"%.2f"|format(azure.awayTeamData.average.offRating)}}</th>
-                    <th style="width: 5%">{{"%.2f"|format(azure.awayTeamData.average.defRating)}}</th>
-                    <th style="width: 5%">{{"%.2f"|format(azure.awayTeamData.average.TempoRating)}}</th>
-                    {% else %}
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    {% endif %}
                 </tr>
                 <tr>
                     <th style="width: 20%">{{score.homeTeam}}</th>
                     <th style="width: 5%">{{score.homeScore}}</th>
-                    {% if azure.homeTeamData%}
-                    <th style="width: 5%">{{azure.homeTeamData.rank}}</th>
-                    <th style="width: 5%">{{"%.2f"|format(azure.homeTeamData.average.offRating)}}</th>
-                    <th style="width: 5%">{{"%.2f"|format(azure.homeTeamData.average.defRating)}}</th>
-                    <th style="width: 5%">{{"%.2f"|format(azure.homeTeamData.average.TempoRating)}}</th>
-                    {% else %}
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    {% endif %}
                 </tr>
             </tbody>
         </table>
