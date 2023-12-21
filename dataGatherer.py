@@ -74,14 +74,19 @@ except Exception as e:
 
 #Add Net Rankings
 print("Calculating Net Rankings")
-netRanks = net.net_rankings_to_dict()
+try:
+    netRanks = net.net_rankings_to_dict()
+except Exception as e:
+    print("Unable to calculate Net Rankings Error: ", e)
+    netRanks = {}
+
 for teamId,rank in netRanks.items():
     try:
         teamData = teamsTable.search(query.id == teamId)[0]
         teamData['ranks']["net_rank"] = rank
         teamsTable.upsert(teamData, query.id == teamId)
     except Exception as e:
-        print("Unable to calculate Net Rankings: ", e, "TeamId: ", teamId)
+        print("Unable to calculate Net Rankings for team: ", e, "TeamId: ", teamId)
         pass
 
 
