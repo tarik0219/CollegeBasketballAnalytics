@@ -8,6 +8,7 @@ from utilscbb import db
 from utilscbb import constants
 from dataGatherer.espn import get_games
 from dataGatherer.espn import add_scores
+from dataGatherer.net import net
 import datetime
 import warnings
 from dataGatherer.record import schedule
@@ -18,6 +19,8 @@ import json
 
 # Ignore all warnings
 warnings.filterwarnings("ignore")
+
+
 
 
 current_date = datetime.datetime.now()
@@ -68,6 +71,21 @@ try:
 except Exception as e:
     print("Unable to calculate Stats Error: ", e)
 
+
+#Add Net Rankings
+print("Calculating Net Rankings")
+netRanks = net.net_rankings_to_dict()
+for teamId,rank in netRanks.items():
+    try:
+        teamData = teamsTable.search(query.id == teamId)[0]
+        teamData['ranks']["net_rank"] = rank
+        teamsTable.upsert(teamData, query.id == teamId)
+    except Exception as e:
+        print("Unable to calculate Net Rankings: ", e, "TeamId: ", teamId)
+        pass
+
+
+
 #calculate records
 print("Calculating Records")
 try:
@@ -98,22 +116,3 @@ def add_to_cache_line_data(games):
         )
     print("Added to cache")
     return
-
-#Add to model
-try:
-    gamesFile = os.path.join(os.getcwd(), constants.PAdataFile)
-    games = get_games.get_games(date_string)
-    add_to_cache_line_data(games)
-    games = get_games.add_odds(games)
-    games = get_games.add_team_data(teamsTable,query,games)
-    games = get_games.add_prediction(gamesFile,games)
-    print('Added Games')
-except Exception as e:
-    print("Did not add games Error: ", e)
-
-
-try:    
-    get_games.add_scores(previous_date,gamesFile)
-    print('Added Scores')
-except Exception as e:
-    print("Did not add previous day scores Error: ", e)

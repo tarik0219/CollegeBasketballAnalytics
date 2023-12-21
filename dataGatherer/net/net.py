@@ -5,7 +5,6 @@ import json
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from utilscbb import connectToContainer
 
 path = os.path.realpath(__file__)
 dir = os.path.dirname(path)
@@ -31,17 +30,8 @@ def net_rankings_to_dict():
     
     netRank = {}
     for team in data:
-        netRank[my_dict[team['School']]] = int(team['Rank'])
+        try:
+            netRank[my_dict[team['School']]] = int(team['Rank'])
+        except:
+            print(team['School'])
     return netRank
-
-def update_net():
-    container = connectToContainer("Teams")
-    netData = net_rankings_to_dict()
-    for data in netData:
-        item = container.read_item(data, partition_key = data)
-        item['net_rank'] = netData[data]
-        print(item['teamName'])
-        container.upsert_item(item)
-
-if __name__ == "__main__":
-    update_net()    

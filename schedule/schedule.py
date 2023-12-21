@@ -114,7 +114,7 @@ def get_schedule(id,year):
                 game_data['seasonType'] = game['competitions'][0]["type"]['abbreviation']
             except:
                 game_data['seasonType'] = 'POST'
-            game_data['completetd'] = game['competitions'][0]['status']['type']['completed']
+            game_data['completed'] = game['competitions'][0]['status']['type']['completed']
             if game['competitions'][0]['competitors'][0]["id"] == id:
                 if game_data['siteType']:
                     game_data['venue'] = "N"
@@ -122,7 +122,7 @@ def get_schedule(id,year):
                     game_data['venue'] = "H"
                 else:
                     game_data['venue'] = "@"
-                if game_data['completetd']:
+                if game_data['completed']:
                     game_data['score'] = game['competitions'][0]['competitors'][0]["score"]['displayValue']
                     game_data['opponentScore'] = game['competitions'][0]['competitors'][1]["score"]['displayValue']
                 game_data['opponentId'] = game['competitions'][0]['competitors'][1]["id"]
@@ -134,12 +134,12 @@ def get_schedule(id,year):
                     game_data['venue'] = "@"
                 else:
                     game_data['venue'] = "H"
-                if game_data['completetd']:
+                if game_data['completed']:
                     game_data['score'] = game['competitions'][0]['competitors'][1]["score"]['displayValue']
                     game_data['opponentScore'] = game['competitions'][0]['competitors'][0]["score"]['displayValue']
                 game_data['opponentId'] = game['competitions'][0]['competitors'][0]["id"]
                 game_data['opponentName'] = game['competitions'][0]['competitors'][0]["team"]["displayName"]
-            if game_data['completetd']:
+            if game_data['completed']:
                 if int(game_data['opponentScore']) > int(game_data['score']):
                     game_data['result'] = "L"
                 elif int(game_data['opponentScore']) < int(game_data['score']):
@@ -148,7 +148,7 @@ def get_schedule(id,year):
                     game_data['result'] = ""
             else:
                 game_data['result'] = ""
-            if is_date_in_past(game_data['date']) and game_data['completetd'] == False:
+            if is_date_in_past(game_data['date']) and game_data['completed'] == False:
                 pass
             else:
                 data.append(game_data)
@@ -192,7 +192,7 @@ def combine_schedule(id, year):
             data[count]["data"] = None
             data[count]['gameType'] = "REG"
 
-        if data[count]['completetd'] == False and 'opponentData' in data[count] and data[count]['data'] != None:
+        if data[count]['completed'] == False and 'opponentData' in data[count] and data[count]['data'] != None:
             if data[count]['venue'] == "H":
                 homescore,awayscore,prob = make_prediction(data[count]['data'], data[count]['opponentData'], data[count]["siteType"])
                 data[count]['scorePrediction'] = homescore
@@ -208,7 +208,7 @@ def combine_schedule(id, year):
                 data[count]['scorePrediction'] = homescore
                 data[count]['opponentScorePrediction'] = awayscore
                 data[count]['prob'] = round(prob * 100, 2)
-        elif data[count]['completetd'] == False:
+        elif data[count]['completed'] == False:
             data[count]['prob'] = 99.00
             prob = 99.00
     return data, team_data
@@ -242,7 +242,7 @@ def calculate_records(data):
     }
     probs = []
     for game in data:
-        if game['completetd']:
+        if game['completed']:
             if game['gameType'] == 'CONF':
                 if game['result'] == 'W':
                     records['win'] += 1
@@ -284,18 +284,20 @@ def calculate_quad_record(data,rank):
     4: {'wins': 0, 'losses': 0} 
     }
     for item in data:
-        if item['completetd']:
-            try:
-                opponent_rank = item['opponentData'][rank]
-            except:
-                continue
-            venue = item["venue"]
-            quad = quad_rank(opponent_rank,venue)
-            if item['result'] == 'W':
-                quad_records[quad]['wins'] += 1
-            else:
-                quad_records[quad]['losses'] += 1
+        if item['completed']:
+            #check if item has opponent data and ranks and rank
+            if 'opponentData' in item and item['opponentData'] is not None:
+                if 'ranks' in item['opponentData'] and item['opponentData']['ranks'] is not None:
+                    if rank in item['opponentData']['ranks']:
+                        opponent_rank = item['opponentData']["ranks"][rank]
+                        venue = item["venue"]
+                        quad = quad_rank(opponent_rank,venue)
+                        if item['result'] == 'W':
+                            quad_records[quad]['wins'] += 1
+                        else:
+                            quad_records[quad]['losses'] += 1
     return quad_records
+
 
 @schedule.route('/schedule/<id>' , methods=['GET','POST'])
 def post_schedule(id):
@@ -305,5 +307,5 @@ def post_schedule(id):
     quad_records = calculate_quad_record(data,'rank')
     net_quad_records = calculate_quad_record(data,'net_rank')
     return render_template('schedule.html', data = data, team_data = team_data, records = records, quad_records= quad_records, net_quad_records = net_quad_records, quadBool=quadBool)
-    
+
 

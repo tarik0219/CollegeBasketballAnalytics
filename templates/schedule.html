@@ -142,8 +142,8 @@
                         </td>
                         <td class="hide-on-mobile">{{ game.gameType }}</td>
                         <td>{{ game.venue }}</td>
-                        {% if game.opponentData and quadBool%}
-                        <td>{{ game.opponentData.net_rank }}</td>
+                        {% if game.opponentData%}
+                        <td>{{ game.opponentData.ranks.net_rank }}</td>
                         {% else %}
                         <td></td>
                         {% endif %}
@@ -164,7 +164,7 @@
                             <td></td>
                         {% endif %}
     
-                        {% if game.completetd %}
+                        {% if game.completed %}
                             <td><a href="{{ ''.join(['/boxscore/', game.gameId, '/',game.dateBox ]) }}">{{game.score}} - {{game.opponentScore}}</a></td> 
                         {% else %}  
                             <td class="hide-on-mobile"></td> 
@@ -181,7 +181,7 @@
     
                         <td class="hide-on-mobile">{{game.result}}</td> 
     
-                        {% if game.completetd == False  %}
+                        {% if game.completed == False  %}
                             {% if game.scorePrediction  %}
                                 <td class="hide-on-mobile">{{game.scorePrediction}} - {{game.opponentScorePrediction}} | {{ "%.2f"|format(game.prob)}}%</td>
                             {% else %}
