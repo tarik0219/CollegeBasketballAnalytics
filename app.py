@@ -6,7 +6,6 @@ from scores.scores import bs
 from schedule.schedule import schedule
 from conference.conference import conference
 from predict.predict import predict
-# from ModelResults.model_results import modelResults
 # from boxscores.boxscores import boxscore
 # from history.history import history
 # from bracketology.bracketology import bracket
@@ -27,7 +26,6 @@ app.register_blueprint(bs)
 app.register_blueprint(schedule)
 app.register_blueprint(conference)
 app.register_blueprint(predict)
-# app.register_blueprint(modelResults)
 # app.register_blueprint(boxscore)
 # app.register_blueprint(history)
 # app.register_blueprint(bracket)

@@ -34,7 +34,7 @@ CONF = ['ALL',
  'WCC']
 
 year = "2024"
-quadBool = False
+quadBool = True
 dbFileName = 'data/cbbweb.json'
 dbFileNameCopy = 'data/cbbweb_copy.json'
 cacheFileName = 'data/cache.json'

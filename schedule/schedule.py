@@ -175,7 +175,7 @@ def combine_schedule(id, year):
             data[count]["opponentData"] = team_data[game['opponentId']]
             data[count]['quad'] = quad_rank(team_data[game['opponentId']]['ranks']['rank'],data[count]['venue'])
             if quadBool:
-                data[count]['netQuad'] = quad_rank(team_data[game['opponentId']]['net_rank'],data[count]['venue'])
+                data[count]['netQuad'] = quad_rank(team_data[game['opponentId']]['ranks']['net_rank'],data[count]['venue'])
             if data[count]['seasonType'] == 'POST':
                 data[count]['gameType'] = "POST"
             elif data[count]['data']['conference'] == data[count]['opponentData']['conference']:
