@@ -75,7 +75,7 @@ def query_data(data,search):
             except:
                 pass
             try:
-                if value['homeData']['ranks']['rank'] <= 25:
+                if value['awayData']['ranks']['rank'] <= 25:
                     new_data[gameId] = value
             except:
                 pass
