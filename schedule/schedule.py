@@ -9,6 +9,7 @@ import pytz
 from utilscbb.predict import make_prediction, make_prediction
 from utilscbb.constants import year, quadBool
 from utilscbb.db import get_db
+from utilscbb.constants import dbFileName
 import warnings
 
 # Ignore all warnings
@@ -74,7 +75,7 @@ def is_date_in_past(date_str):
 
 def get_team_data():
     team_data = {}
-    query, teamsTable = get_db()
+    query, teamsTable = get_db(dbFileName)
     data = teamsTable.all()
     for team in data:
         team_data[team['id']] = team

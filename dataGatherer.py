@@ -2,20 +2,14 @@ from dataGatherer.kenpom import kenpom
 from dataGatherer.barttorvik import barttorvik
 from dataGatherer.calculate import calculate
 from tinydb.operations import set
-from tinydb import TinyDB, Query
-import os
 from utilscbb import db
-from utilscbb import constants
-from dataGatherer.espn import get_games
-from dataGatherer.espn import add_scores
 from dataGatherer.net import net
 import datetime
 import warnings
 from dataGatherer.record import schedule
-from utilscbb.constants import year, PAcacheFileName, PAcacheFileNameCopy
-from utilscbb.cahce import get_pa_cache, get_cache
-import requests
-import json
+from utilscbb.constants import year, PAdbFileNameCopy,dbFileNameCopy, PAdbFileName, dbFileName
+import shutil
+
 
 # Ignore all warnings
 warnings.filterwarnings("ignore")
@@ -29,9 +23,9 @@ previous_date = current_date - datetime.timedelta(days=1)
 previous_date = previous_date.strftime("%Y%m%d")
 
 try:
-    query,teamsTable = db.get_db_pa()
+    query,teamsTable = db.get_db(PAdbFileNameCopy)
 except:
-    query,teamsTable = db.get_db()
+    query,teamsTable = db.get_db(dbFileNameCopy)
 
 print('Getting Kenpom Data')
 kenpomTeams = kenpom.UpdateKenpom()
@@ -87,10 +81,6 @@ try:
 except Exception as e:
     print("Unable to calculate Net Rankings Error: ", e)
 
-
-
-
-
 #calculate records
 print("Calculating Records")
 try:
@@ -100,24 +90,11 @@ except Exception as e:
     print("Unable to calculate records Error: ", e)
 
 
-#Add to cache
-def add_to_cache_line_data(games):
-    print("Adding to cache")
-    try: 
-        query, cache = get_pa_cache()
-    except:
-        query, cache = get_cache()
-    for game in games:
-        gameId = game['id']
-        url = "https://sports.core.api.espn.com/v2/sports/basketball/leagues/mens-college-basketball/events/{}/competitions/{}/odds?=".format(gameId, gameId)
-        payload = {}
-        headers = {}
-        response = requests.request("GET", url, headers=headers, data=payload)
-        cache.upsert(
-            {
-                "gameId": gameId,
-                "response": json.dumps(response.json())
-            }
-        )
-    print("Added to cache")
-    return
+
+#Copy DB
+print("Making Copy of DB")
+try:
+    shutil.copyfile(PAdbFileNameCopy, PAdbFileName)
+except:
+    shutil.copyfile(dbFileNameCopy, dbFileName)
+print("Done making copy of DB")

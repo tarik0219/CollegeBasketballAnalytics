@@ -7,6 +7,9 @@ import random
 from tinydb.operations import set
 from tinydb import TinyDB, Query
 from werkzeug.datastructures import MultiDict
+from utilscbb.constants import dbFileName
+
+
 
 predict = Blueprint('predict', __name__)
 
@@ -20,7 +23,7 @@ class PredictGame(FlaskForm):
     neutral = SelectField('Neutral Venue', choices = ['No','Yes'])
 
 def get_team_data_name(teamName):
-    query,teamsTable = get_db() 
+    query,teamsTable = get_db(dbFileName) 
     data = teamsTable.search(query.teamName == teamName)
     for item in data:
         return item

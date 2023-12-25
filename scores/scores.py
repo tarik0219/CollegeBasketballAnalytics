@@ -14,6 +14,7 @@ from werkzeug.datastructures import MultiDict
 from utilscbb.predict import make_prediction
 import warnings
 from utilscbb.db import get_db
+from utilscbb.constants import dbFileName
 from utilscbb.cahce import get_cache
 import concurrent.futures
 import threading
@@ -35,7 +36,7 @@ class ScoreSearch(FlaskForm):
 
 
 def add_info(data):
-    query, teamsTable = get_db()
+    query, teamsTable = get_db(dbFileName)
     teams = teamsTable.all()
     team_data = {}
     for item in teams:

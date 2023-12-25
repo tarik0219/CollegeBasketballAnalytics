@@ -2,6 +2,7 @@ from flask import Blueprint, render_template
 from tinydb import TinyDB, Query
 from tinydb.operations import set
 from utilscbb.db import get_db
+from utilscbb.constants import dbFileName
 
 conference = Blueprint('conference', __name__)
 
@@ -39,14 +40,14 @@ def get_all_conf_data(query,teamsTable):
 
 @conference.route('/conference/<conf>')
 def conference_stadnings(conf):
-    query,teamsTable = get_db()
+    query,teamsTable = get_db(dbFileName)
     data = get_teams(conf,query,teamsTable)
     data.sort(key=lambda x: (x["record"]['confProjectedWin'],x["record"]['confWin']), reverse=True)
     return render_template('conference.html', data=data, conference = conf)
 
 @conference.route('/conference')
 def conference_rank():
-    query,teamsTable = get_db()
+    query,teamsTable = get_db(dbFileName)
     data = get_all_conf_data(query,teamsTable)
     data.sort(key=lambda x: x["average"], reverse=False)
     return render_template('conferenceRanks.html', data=data)

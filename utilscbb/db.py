@@ -4,24 +4,18 @@ from utilscbb.constants import dbFileName,PAdbFileName, dbFileNameCopy, cacheFil
 import shutil
 
 dbfile = os.path.join(os.getcwd(), dbFileName)
-PAdbfile = os.path.join(os.getcwd(), PAdbFileName)
+dbFileCopy = os.path.join(os.getcwd(), dbFileNameCopy)
+padbfile = os.path.join(os.getcwd(), PAdbFileName)
 PAdbfilecopy = os.path.join(os.getcwd(), PAdbFileNameCopy)
 
-
-
-
-def get_db_pa():
-    db = TinyDB(PAdbfile)
+def get_db(filename):
+    db = TinyDB(filename)
     query = Query()
     teamsTable = db.table('teams')
     return query,teamsTable
+
+
     
-
-def get_db():
-    db = TinyDB(dbfile)
-    query = Query()
-    teamsTable = db.table('teams')
-    return query,teamsTable
 
 
 
