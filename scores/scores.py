@@ -13,7 +13,7 @@ import numpy as np
 from werkzeug.datastructures import MultiDict
 from utilscbb.predict import make_prediction
 import warnings
-from utilscbb.db import get_db
+from utilscbb.db import get_db, get_all_team_data, get_team_data
 from utilscbb.constants import dbFileName
 from utilscbb.cahce import get_cache
 import concurrent.futures
@@ -36,25 +36,18 @@ class ScoreSearch(FlaskForm):
 
 
 def add_info(data):
-    query, teamsTable = get_db(dbFileName)
-    teams = teamsTable.all()
-    team_data = {}
-    for item in teams:
-        team_data[item['id']] = item
-
+    teamData = {}
+    for team in get_all_team_data():
+        teamData[team['id']] = team
     for gameId,value in data.items():
-        if value['homeTeamId'] in team_data and value['awayTeamId'] in team_data:
-            data[gameId]['homeData'] = team_data[value['homeTeamId']]
-            data[gameId]['awayData'] = team_data[value['awayTeamId']]
-        else:
-            data[gameId]['homeData'] = None
-            data[gameId]['awayData'] = None
+        data[gameId]['homeData'] = teamData[value['homeTeamId'] ] if value['homeTeamId'] in teamData else None
+        data[gameId]['awayData'] = teamData[value['awayTeamId'] ] if value['awayTeamId'] in teamData else None
     return data
 
 
-def add_prediction(data,date):
+def add_prediction(data):
     for gameId,value in data.items():
-        if data[gameId]['homeData'] != None and data[gameId]['awayData'] != None: 
+        if data[gameId]['homeData'] and data[gameId]['awayData']: 
             home, away, prob = make_prediction(data[gameId]['homeData'], data[gameId]['awayData'], data[gameId]['siteType'])
             data[gameId]['homeScorePredict'] = home
             data[gameId]['awayScorePredict'] = away
@@ -157,7 +150,7 @@ def box_score(datesearch,search):
     data = get_scores(datesearch)
     data = add_info(data)
     data = query_data(data,search)
-    data = add_prediction(data,datesearch)
+    data = add_prediction(data)
     data = add_line_data(data)
     date = datesearch[4:6]+'/'+datesearch[6:8]+'/'+datesearch[0:4] 
     send = []

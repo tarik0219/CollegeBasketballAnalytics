@@ -8,7 +8,7 @@ import numpy as np
 import pytz
 from utilscbb.predict import make_prediction, make_prediction
 from utilscbb.constants import year, quadBool
-from utilscbb.db import get_db
+from utilscbb.db import get_all_team_data
 from utilscbb.constants import dbFileName
 import warnings
 
@@ -73,10 +73,9 @@ def is_date_in_past(date_str):
 
 
 
-def get_team_data():
+def get_data():
     team_data = {}
-    query, teamsTable = get_db(dbFileName)
-    data = teamsTable.all()
+    data = get_all_team_data()
     for team in data:
         team_data[team['id']] = team
     return team_data
@@ -159,18 +158,8 @@ def get_schedule(id,year):
 def combine_schedule(id, year):
     data, ids = get_schedule(id, year)
     # line_data = get_line_data(ids)
-    team_data = get_team_data()
+    team_data = get_data()
     for count,game in enumerate(data):
-        # try:
-        #     if float(line_data[game['gameId']]['line']) >= 0:
-        #         line = f"+{line_data[game['gameId']]['line']}"
-        #     else:
-        #         line = f"{line_data[game['gameId']]['line']}"
-        #     data[count]['line'] = line
-        #     data[count]['homeLineName'] = line_data[game['gameId']]['homeTeam']
-        # except:
-        #     data[count]['line'] = None
-
         try:
             data[count]["data"] = team_data[id]
             data[count]["opponentData"] = team_data[game['opponentId']]
@@ -180,11 +169,6 @@ def combine_schedule(id, year):
             if data[count]['seasonType'] == 'POST':
                 data[count]['gameType'] = "POST"
             elif data[count]['data']['conference'] == data[count]['opponentData']['conference']:
-                # if check_conference_tournament(data[count]['date'], data[count]['data']['conference']):
-                #     data[count]['gameType'] = "CTRN"
-                # elif check_after_conference_tournament(data[count]['date'], data[count]['data']['conference']):
-                #     data[count]['gameType'] = "POST"
-                # else:
                 data[count]['gameType'] = "CONF"
             else:
                 data[count]['gameType'] = "REG"

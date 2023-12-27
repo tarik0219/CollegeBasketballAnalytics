@@ -3,16 +3,21 @@ from tinydb import TinyDB, Query
 from tinydb.operations import set
 from utilscbb.db import get_db
 from utilscbb.constants import dbFileName
+from utilscbb.db import get_all_team_data,get_team_data
 
 conference = Blueprint('conference', __name__)
 
 
-def get_teams(conf,query,teamsTable):
-    team_data = teamsTable.search(query.conference == conf)
-    return team_data
+def get_teams(conf):
+    conf_teams = []
+    teams = get_all_team_data()
+    for team in teams:
+        if team['conference'] == conf:
+            conf_teams.append(team)
+    return conf_teams
 
-def get_all_conf_data(query,teamsTable):
-    teams = teamsTable.all()
+def get_all_conf_data():
+    teams = get_all_team_data()
     conf_data = {}
     for item in teams:
         if item['conference'] in conf_data:
@@ -40,14 +45,12 @@ def get_all_conf_data(query,teamsTable):
 
 @conference.route('/conference/<conf>')
 def conference_stadnings(conf):
-    query,teamsTable = get_db(dbFileName)
-    data = get_teams(conf,query,teamsTable)
+    data = get_teams(conf)
     data.sort(key=lambda x: (x["record"]['confProjectedWin'],x["record"]['confWin']), reverse=True)
     return render_template('conference.html', data=data, conference = conf)
 
 @conference.route('/conference')
 def conference_rank():
-    query,teamsTable = get_db(dbFileName)
-    data = get_all_conf_data(query,teamsTable)
+    data = get_all_conf_data()
     data.sort(key=lambda x: x["average"], reverse=False)
     return render_template('conferenceRanks.html', data=data)

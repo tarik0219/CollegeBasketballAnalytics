@@ -1,27 +1,23 @@
-from tinydb import TinyDB, Query
-import os
-from utilscbb.constants import dbFileName,PAdbFileName, dbFileNameCopy, cacheFileNameCopy, PAdbFileNameCopy, PAcacheFileNameCopy
-import shutil
-
-dbfile = os.path.join(os.getcwd(), dbFileName)
-dbFileCopy = os.path.join(os.getcwd(), dbFileNameCopy)
-padbfile = os.path.join(os.getcwd(), PAdbFileName)
-PAdbfilecopy = os.path.join(os.getcwd(), PAdbFileNameCopy)
-
-def get_db(filename):
-    db = TinyDB(filename)
-    query = Query()
-    teamsTable = db.table('teams')
-    return query,teamsTable
-
-
-    
+from utilscbb.constants import cbbAnalyticsApiUrl
+import requests
 
 
 
-try:
-    db = TinyDB(dbfile)
-    query = Query()
-    teamsTable = db.table('teams')
-except:
-    pass
+def get_all_team_data():
+    url = cbbAnalyticsApiUrl + "/teamData"
+    response = requests.request("GET", url)
+    return response.json()
+
+
+def get_team_data(teamId):
+    url = cbbAnalyticsApiUrl + "/teamData/" + teamId
+    response = requests.request("GET", url)
+    return response.json()
+
+def get_team_data_name(teamName):
+    url = cbbAnalyticsApiUrl + "/teamData/teamName/" + teamName
+    response = requests.request("GET", url)
+    return response.json()
+
+def get_db():
+    return {}

@@ -7,7 +7,5 @@
 
 
 ## Run
-- `python dataGatherer.py`
--  Gets all up to date data.
 - `python app.py`
 -  Runs the app, Running on http://127.0.0.1:5000

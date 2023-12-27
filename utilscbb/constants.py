@@ -47,3 +47,6 @@ PAdbFileNameCopy = 'CollegeBasketballAnalytics/data/cbbweb_copy.json'
 PAcacheFileName = 'CollegeBasketballAnalytics/data/cache.json'
 PAcacheFileNameCopy = 'CollegeBasketballAnalytics/data/cache_copy.json'
 PAdataFile = "CollegeBasketballAnalytics/data/games.csv"
+
+
+cbbAnalyticsApiUrl = "https://koric2.pythonanywhere.com"
