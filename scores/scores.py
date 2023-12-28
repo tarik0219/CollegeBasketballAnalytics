@@ -1,28 +1,17 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_wtf import FlaskForm
-from utilscbb.espn import get_scores, convertDateTime, get_line_data
+from utilscbb.espn import get_scores, get_line_data
 from utilscbb.constants import CONF
 from datetime import datetime
-from datetime import timedelta
-from wtforms import SelectField,SubmitField,StringField,validators
+from wtforms import SelectField,SubmitField,validators
 from wtforms.fields.html5 import DateField
-from wtforms.validators import DataRequired
-from pytz import timezone
-import pickle
-import numpy as np
-from werkzeug.datastructures import MultiDict
-from utilscbb.predict import make_prediction
+from utilscbb.predict import call_prediction_api, call_prediction_list_api
 import warnings
-from utilscbb.db import get_db, get_all_team_data, get_team_data
+from utilscbb.db import get_all_team_data
 from utilscbb.constants import dbFileName
 from utilscbb.cahce import get_cache
-import concurrent.futures
-import threading
 import requests
 import json
-from tinydb import TinyDB, Query
-from tinydb.operations import set
-import os
 from utilscbb.cahce import get_cache
 warnings.filterwarnings(action='ignore')
 
@@ -46,12 +35,24 @@ def add_info(data):
 
 
 def add_prediction(data):
+    requestData = []
     for gameId,value in data.items():
         if data[gameId]['homeData'] and data[gameId]['awayData']: 
-            home, away, prob = make_prediction(data[gameId]['homeData'], data[gameId]['awayData'], data[gameId]['siteType'])
-            data[gameId]['homeScorePredict'] = home
-            data[gameId]['awayScorePredict'] = away
-            data[gameId]['prob'] = prob
+            requestData.append({
+                "homeData": data[gameId]['homeData']['average'],
+                "awayData": data[gameId]['awayData']['average'],
+                "neutralSite": data[gameId]['siteType']
+            })
+        else:
+            pass
+    response = call_prediction_list_api({"games":requestData})
+    count = 0
+    for gameId,value in data.items():
+        if data[gameId]['homeData'] and data[gameId]['awayData']: 
+            data[gameId]['homeScorePredict'] = response[count]['homeScore']
+            data[gameId]['awayScorePredict'] =  response[count]['awayScore']
+            data[gameId]['prob'] = response[count]['prob']
+            count += 1
         else:
             data[gameId]['homeScorePredict'] = None   
             data[gameId]['awayScorePredict'] = None
@@ -109,8 +110,6 @@ def change_siteType(data):
         else:
             data[count]['siteType'] = "No"
     return data
-
-
 
 def add_line_data(data):
     for i, gameId in enumerate(data):

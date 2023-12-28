@@ -2,12 +2,12 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from flask_wtf import FlaskForm
 from wtforms import SelectField,SubmitField,StringField,validators
 from utilscbb.db import get_all_team_data, get_team_data_name
-from utilscbb.predict import make_prediction
 import random
 from tinydb.operations import set
 from tinydb import TinyDB, Query
 from werkzeug.datastructures import MultiDict
 from utilscbb.constants import dbFileName
+from utilscbb.predict import call_prediction_api
 
 
 
@@ -21,10 +21,6 @@ class PredictGame(FlaskForm):
     hometeam = SelectField('Home Team', choices = teams)
     awayteam = SelectField('Away Team', choices = teams)
     neutral = SelectField('Neutral Venue', choices = ['No','Yes'])
-
-def get_team_data(teamName):
-    teamData = get_team_data_name(teamName)
-    return teamData
 
 @predict.route('/predict',methods=['GET','POST'])
 def predict_game():
@@ -48,9 +44,9 @@ def predictresults(hometeam,awayteam,neutral):
         neutral = True
     else:
         neutral = False
-    homeData = get_team_data(hometeam)
-    awayData = get_team_data(awayteam)
-    homeScore,awayScore,prob = make_prediction(homeData,awayData,neutral)
+    homeData = get_team_data_name(hometeam)
+    awayData = get_team_data_name(awayteam)
+    homeScore,awayScore,prob = call_prediction_api(homeData,awayData,neutral)
     prob = prob * 100
     return render_template("predictResults.html", homeData = homeData, awayData = awayData, homeScore = homeScore, awayScore = awayScore, prob = prob)
 

@@ -6,7 +6,7 @@ from dateutil import tz
 import pickle
 import numpy as np
 import pytz
-from utilscbb.predict import make_prediction, make_prediction
+from utilscbb.predict import call_prediction_api
 from utilscbb.constants import year, quadBool
 from utilscbb.db import get_all_team_data
 from utilscbb.constants import dbFileName
@@ -179,17 +179,17 @@ def combine_schedule(id, year):
 
         if data[count]['completed'] == False and 'opponentData' in data[count] and data[count]['data'] != None:
             if data[count]['venue'] == "H":
-                homescore,awayscore,prob = make_prediction(data[count]['data'], data[count]['opponentData'], data[count]["siteType"])
+                homescore,awayscore,prob = call_prediction_api(data[count]['data'], data[count]['opponentData'], data[count]["siteType"])
                 data[count]['scorePrediction'] = homescore
                 data[count]['opponentScorePrediction'] = awayscore
                 data[count]['prob'] = round(prob * 100, 2)
             elif data[count]['venue'] == "@":
-                homescore,awayscore,prob = make_prediction(data[count]['opponentData'], data[count]['data'], data[count]["siteType"])
+                homescore,awayscore,prob = call_prediction_api(data[count]['opponentData'], data[count]['data'], data[count]["siteType"])
                 data[count]['scorePrediction'] = awayscore
                 data[count]['opponentScorePrediction'] = homescore
                 data[count]['prob'] = 100 - round(prob * 100, 2)
             else:
-                homescore,awayscore,prob = make_prediction(data[count]['data'], data[count]['opponentData'], data[count]["siteType"])
+                homescore,awayscore,prob = call_prediction_api(data[count]['data'], data[count]['opponentData'], data[count]["siteType"])
                 data[count]['scorePrediction'] = homescore
                 data[count]['opponentScorePrediction'] = awayscore
                 data[count]['prob'] = round(prob * 100, 2)
