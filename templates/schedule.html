@@ -81,8 +81,8 @@
 
 
 <div class="container">
-    <h2><img src="{{ ''.join(['/static/pics/', team_data.teamName ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([team_data.teamName]) }}" width="50" height="40" title="{{ ''.join([team_data.teamName]) }}" >#{{team_data.ranks.rank}} {{team_data.teamName}} {{records.win}} - {{records.loss}} ({{records.confWin}} - {{records.confLoss}})</h2>
-    <h3>Projected Record: {{records.projectedWin}} - {{records.projectedLoss}} ({{records.confProjectedWin}} - {{records.confProjectedLoss}})</h3>
+    <h2><img src="{{ ''.join(['/static/pics/', data.teamData.teamName ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([data.teamData.teamName]) }}" width="50" height="40" title="{{ ''.join([data.teamData.teamName]) }}" >#{{data.teamData.ranks.rank}} {{data.teamData.teamName}} {{data.records.win}} - {{data.records.loss}} ({{data.records.confWin}} - {{data.records.confLoss}})</h2>
+    <h3>Projected Record: {{data.records.projectedWin}} - {{data.records.projectedLoss}} ({{data.records.confProjectedWin}} - {{data.records.confProjectedLoss}})</h3>
     <h3>Quad Record:</h3>
     <div class="table-responsive">
         <table class="table table-hover table-bordered table-sm table-striped">
@@ -98,18 +98,11 @@
             <tbody>
                 <tbody id="myTable">
                     <tr>
-                        <td>TK</td>  
-                        <td>{{ quad_records[1]['wins'] }} - {{ quad_records[1]['losses'] }}</td>
-                        <td>{{ quad_records[2]['wins'] }} - {{ quad_records[2]['losses'] }}</td>
-                        <td>{{ quad_records[3]['wins'] }} - {{ quad_records[3]['losses'] }}</td>
-                        <td>{{ quad_records[4]['wins'] }} - {{ quad_records[4]['losses'] }}</td>
-                    </tr>
-                    <tr>
                         <td>NET</td>  
-                        <td>{{ net_quad_records[1]['wins'] }} - {{ net_quad_records[1]['losses'] }}</td>
-                        <td>{{ net_quad_records[2]['wins'] }} - {{ net_quad_records[2]['losses'] }}</td>
-                        <td>{{ net_quad_records[3]['wins'] }} - {{ net_quad_records[3]['losses'] }}</td>
-                        <td>{{ net_quad_records[4]['wins'] }} - {{ net_quad_records[4]['losses'] }}</td>
+                        <td>{{ data.quadRecords.quad1.wins }} - {{ data.quadRecords.quad1.losses }}</td>
+                        <td>{{ data.quadRecords.quad2.wins }} - {{ data.quadRecords.quad2.losses }}</td>
+                        <td>{{ data.quadRecords.quad3.wins }} - {{ data.quadRecords.quad3.losses }}</td>
+                        <td>{{ data.quadRecords.quad4.wins }} - {{ data.quadRecords.quad4.losses }}</td>
                     </tr>
             </tbody>
     </table>
@@ -133,7 +126,7 @@
         </thead>
         <tbody>
             <tbody id="myTable">
-                    {% for game in data %}
+                    {% for game in data.games %}
                     <tr>
                         <td class="date-on-mobile">
                             {{ game.date}}
@@ -152,38 +145,39 @@
                         
                         {% if game.opponentData  %}
                             <td><a href="{{ ''.join(['/schedule/', game.opponentId ]) }}">{{ game.opponentName }}</a> #{{game.opponentData.ranks.rank}}</td>
-                            {% if quadBool  %}
-                                <td>{{ game.netQuad }}</td>
-                            {% else %}
-                                <td>{{ game.quad }}</td>
-                            {% endif %}
+                            <td>{{ game.quad }}</td>
                             <td><a href="{{ ''.join(['/conference/', game.opponentData.conference]) }}" style="text-decoration: none;">{{ game.opponentData.conference }}</a></td>
                         {% else %}
                             <td>{{ game.opponentName }}</td>
                             <td></td>
                             <td></td>
                         {% endif %}
-    
+                        
+
                         {% if game.completed %}
-                            <td><a href="{{ ''.join(['/boxscore/', game.gameId, '/',game.dateBox ]) }}">{{game.score}} - {{game.opponentScore}}</a></td> 
+                            <td><a href="{{ ''.join(['/boxscore/', game.gameId, '/',game.dateString ]) }}">{{game.score}} - {{game.opponentScore}}</a></td> 
                         {% else %}  
                             <td class="hide-on-mobile"></td> 
                             {% if game.scorePrediction  %}
                                 <td class="on-mobile" style="font-size: 5px">
                                 {{game.scorePrediction}} - {{game.opponentScorePrediction}}
                                 <br>
-                                {{ "%.2f"|format(game.prob)}}%
+                                {{ "%.2f"|format(game.winProbability * 100)}}%
                                 </td>
                             {% else %}
                                 <td class="on-mobile">99.00%</td>
                             {% endif %}
                         {% endif %} 
-    
-                        <td class="hide-on-mobile">{{game.result}}</td> 
+                        
+                        {% if game.result %}
+                            <td class="hide-on-mobile">{{game.result}}</td> 
+                        {% else %}
+                            <td class="hide-on-mobile"></td> 
+                        {% endif %}
     
                         {% if game.completed == False  %}
                             {% if game.scorePrediction  %}
-                                <td class="hide-on-mobile">{{game.scorePrediction}} - {{game.opponentScorePrediction}} | {{ "%.2f"|format(game.prob)}}%</td>
+                                <td class="hide-on-mobile">{{game.scorePrediction}} - {{game.opponentScorePrediction}} | {{ "%.2f"|format(game.winProbability * 100)}}%</td>
                             {% else %}
                                 <td class="hide-on-mobile">99.00%</td>
                             {% endif %}

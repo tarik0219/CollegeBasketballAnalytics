@@ -50,3 +50,4 @@ PAdataFile = "CollegeBasketballAnalytics/data/games.csv"
 
 
 cbbAnalyticsApiUrl = "https://koric2.pythonanywhere.com"
+appSyncURL = "https://5pb6ihqy4zbe7gftm4uw6nojci.appsync-api.us-east-2.amazonaws.com/graphql"

@@ -1,9 +1,5 @@
 from flask import Blueprint, render_template
-from tinydb import TinyDB, Query
-from tinydb.operations import set
-from utilscbb.db import get_db
-from utilscbb.constants import dbFileName
-from utilscbb.db import get_all_team_data,get_team_data
+from utilscbb.db import get_all_team_data
 
 conference = Blueprint('conference', __name__)
 
