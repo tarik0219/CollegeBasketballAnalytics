@@ -123,19 +123,24 @@
                     {% endif %}
 
                     <td style="width: 7%">{{ game.awayScore }}</td>
-
-                    {% if game.homeScorePredict != None%}
-                    <td style="width: 15%"><img src="{{ ''.join(['/static/pics/', game.awayTeam ,'.png']) }}"
-                            onerror="this.onerror=null; this.src='/static/pics/basketball.png'"
-                            alt="{{ ''.join([game.awayTeam]) }}" width="25" height="20"
-                            title="{{ ''.join([game.awayTeam]) }}">{{game.awayScorePredict}}-<img
-                            src="{{ ''.join(['/static/pics/', game.homeTeam ,'.png']) }}"
-                            onerror="this.onerror=null; this.src='/static/pics/basketball.png'"
-                            alt="{{ ''.join([game.homeTeam]) }}" width="25" height="20"
-                            title="{{ ''.join([game.homeTeam]) }}">{{game.homeScorePredict}}</td>
+                    
+                    {% if game.status == 'post' %}
+                        <td style="width: 15%"></td>
                     {% else %}
-                    <td style="width: 15%"></td>
+                        {% if game.homeScorePredict != None%}
+                        <td style="width: 15%"><img src="{{ ''.join(['/static/pics/', game.awayTeam ,'.png']) }}"
+                                onerror="this.onerror=null; this.src='/static/pics/basketball.png'"
+                                alt="{{ ''.join([game.awayTeam]) }}" width="25" height="20"
+                                title="{{ ''.join([game.awayTeam]) }}">{{game.awayScorePredict}}-<img
+                                src="{{ ''.join(['/static/pics/', game.homeTeam ,'.png']) }}"
+                                onerror="this.onerror=null; this.src='/static/pics/basketball.png'"
+                                alt="{{ ''.join([game.homeTeam]) }}" width="25" height="20"
+                                title="{{ ''.join([game.homeTeam]) }}">{{game.homeScorePredict}}</td>
+                        {% else %}
+                        <td style="width: 15%"></td>
+                        {% endif %}
                     {% endif %}
+                    
 
                 </tr>
                 <tr>
