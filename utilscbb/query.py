@@ -25,6 +25,11 @@ def get_schedule_query():
       dateString
       opponentScorePrediction
       result
+      odds {
+        overUnder
+        spread
+      }
+      homeTeamId
       opponentData {
         TempoRating
         defRating

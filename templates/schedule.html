@@ -83,7 +83,6 @@
 <div class="container">
     <h2><img src="{{ ''.join(['/static/pics/', data.teamData.teamName ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([data.teamData.teamName]) }}" width="50" height="40" title="{{ ''.join([data.teamData.teamName]) }}" >#{{data.teamData.ranks.rank}} {{data.teamData.teamName}} {{data.records.win}} - {{data.records.loss}} ({{data.records.confWin}} - {{data.records.confLoss}})</h2>
     <h3>Projected Record: {{data.records.projectedWin}} - {{data.records.projectedLoss}} ({{data.records.confProjectedWin}} - {{data.records.confProjectedLoss}})</h3>
-    <h3>Quad Record:</h3>
     <div class="table-responsive">
         <table class="table table-hover table-bordered table-sm table-striped">
             <thead class="thead-dark">
@@ -112,7 +111,6 @@
             <tr>
                 <th>Date/Time</th>
                 <th class="hide-on-mobile">Type</th>
-                <th>Venue</th>
                 <th>Net</th>
                 <th></th>
                 <th>Opponent</th>
@@ -121,7 +119,7 @@
                 <th class="on-mobile">Conf</th>
                 <th class="bigger-on-mobile">Score</th>
                 <th class="hide-on-mobile">Result</th>
-                <th class="hide-on-mobile">Line/Score Prediction</th>
+                <th>Line/Score Prediction</th>
             <tr>
         </thead>
         <tbody>
@@ -134,7 +132,6 @@
                             {{ game.time}}ET
                         </td>
                         <td class="hide-on-mobile">{{ game.gameType }}</td>
-                        <td>{{ game.venue }}</td>
                         {% if game.opponentData%}
                         <td>{{ game.opponentData.ranks.net_rank }}</td>
                         {% else %}
@@ -144,11 +141,23 @@
                         <td><img src="{{ ''.join(['/static/pics/', game.opponentName ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([game.opponentName]) }}" width="25" height="20" title="{{ ''.join([game.opponentName]) }}" ></td>
                         
                         {% if game.opponentData  %}
-                            <td><a href="{{ ''.join(['/schedule/', game.opponentId ]) }}">{{ game.opponentName }}</a> #{{game.opponentData.ranks.rank}}</td>
+                            {% if game.venue == "H"  %}
+                                <td><a href="{{ ''.join(['/schedule/', game.opponentId ]) }}">{{ game.opponentName }}</a> #{{game.opponentData.ranks.rank}}</td>
+                            {% elif game.venue == "@" %}
+                                <td><a href="{{ ''.join(['/schedule/', game.opponentId ]) }}">*{{ game.opponentName }}</a> #{{game.opponentData.ranks.rank}}</td>
+                            {% else %}
+                                <td><a href="{{ ''.join(['/schedule/', game.opponentId ]) }}">**{{ game.opponentName }}</a> #{{game.opponentData.ranks.rank}}</td>
+                            {% endif %}
                             <td>{{ game.quad }}</td>
                             <td><a href="{{ ''.join(['/conference/', game.opponentData.conference]) }}" style="text-decoration: none;">{{ game.opponentData.conference }}</a></td>
                         {% else %}
-                            <td>{{ game.opponentName }}</td>
+                            {% if game.venue == "H"  %}
+                                <td>{{ game.opponentName }}</td>
+                            {% elif game.venue == "@" %}
+                                <td>*{{ game.opponentName }}</td>
+                            {% else %}
+                                <td>**{{ game.opponentName }}</td>
+                            {% endif %}
                             <td></td>
                             <td></td>
                         {% endif %}
@@ -177,21 +186,27 @@
     
                         {% if game.completed == False  %}
                             {% if game.scorePrediction  %}
-                                <td class="hide-on-mobile">{{game.scorePrediction}} - {{game.opponentScorePrediction}} | {{ "%.2f"|format(game.winProbability * 100)}}%</td>
+                                <td>{{game.scorePrediction}} - {{game.opponentScorePrediction}} | {{ "%.2f"|format(game.winProbability * 100)}}%</td>
                             {% else %}
-                                <td class="hide-on-mobile">99.00%</td>
+                                <td>99.00%</td>
                             {% endif %}
                         {% else %}
-                            {% if game.line == None  %}
-                                <td class="hide-on-mobile"></td>
+                            {% if game.odds.spread != None  %}
+                                {% if game.homeTeamId == data.teamID  %}
+                                    <td><img src="{{ ''.join(['/static/pics/', data.teamData.teamName ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([data.teamData.teamName]) }}" width="25" height="20" title="{{ ''.join([data.teamData.teamName]) }}" >{{game.odds.spread }}</td>
+                                {% else %}
+                                    <td><img src="{{ ''.join(['/static/pics/', game.opponentName ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([game.opponentName]) }}" width="25" height="20" title="{{ ''.join([game.opponentName]) }}" >{{game.odds.spread }}</td>
+                                {% endif %}
                             {% else %}
-                                <td class="hide-on-mobile"></td>
+                                <td></td>
                             {% endif %}
                         {% endif %}
                     </tr>
                     {% endfor %}
             </tbody>
     </table>
+    * - Away Game
+    ** - Neutral Site
 </div>
 
 <br>
