@@ -47,16 +47,7 @@ def conference_stadnings(conf):
     for count,team in enumerate(data):
         data[count]['standings'] = standings[team['id']]
     data.sort(key=lambda x: (x["record"]['confProjectedWin'],x["record"]['confWin']), reverse=True)
-    standingsData = []
-    for team in data:
-        add = []
-        count = 1
-        while(count < len(data)):
-            add.append(team['standings'][str(count)])
-            count += 1
-        standingsData.append(add)
-    standingsData = list(zip(*standingsData))
-    return render_template('conference.html', data=data, conference = conf, standingsData = standingsData)
+    return render_template('conference.html', data=data, conference = conf)
 
 @conference.route('/conference')
 def conference_rank():
