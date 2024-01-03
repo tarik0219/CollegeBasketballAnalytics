@@ -19,5 +19,10 @@ def get_team_data_name(teamName):
     response = requests.request("GET", url)
     return response.json()
 
+def get_conference_standings(conference):
+    url = cbbAnalyticsApiUrl + "/getConferenceStandings/" + conference
+    response = requests.request("GET", url)
+    return response.json()
+
 def get_db():
     return {}

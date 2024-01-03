@@ -94,4 +94,36 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <br>
+
+        <table class="table table-hover table-bordered table-sm table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Rank</th>
+                    <th></th>
+                    {% for team in data %}
+                        <th>{{loop.index}}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+            <tbody>
+                {% for team in data %}
+                <tr>
+                    {% set index = loop.index -%}
+                    <td>{{loop.index}}</td>
+                    <td><img src="{{ ''.join(['/static/pics/', team.teamName ,'.png']) }}"
+                            alt="{{ ''.join([team.teamName]) }}" width="25" height="20"
+                            title="{{ ''.join([team.teamName]) }}"></td>
+                    {% for team2 in data %}
+                        {% set index2 = loop.index|string -%}
+                        <td>{{data[index-1].standings[index2]}}%</td>
+                    {% endfor %}
+                
+                </tr>
+                {% endfor %}
+                
+            </tbody>
+        </table>
 {% endblock %}

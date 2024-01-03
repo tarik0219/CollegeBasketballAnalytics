@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template
-from utilscbb.db import get_all_team_data
+from utilscbb.db import get_all_team_data, get_conference_standings
+
 
 conference = Blueprint('conference', __name__)
 
@@ -24,7 +25,7 @@ def get_all_conf_data():
                 conf_data[item['conference']]['max'] = item['ranks']['rank']
             if conf_data[item['conference']]['min'] > item['ranks']['rank']:
                 conf_data[item['conference']]['min'] = item['ranks']['rank']
-        else:
+        elif item['conference'] != "IND":
             conf_data[item['conference']] ={
                 "count":1,
                 "rank":item['ranks']['rank'],
@@ -42,8 +43,20 @@ def get_all_conf_data():
 @conference.route('/conference/<conf>')
 def conference_stadnings(conf):
     data = get_teams(conf)
+    standings = get_conference_standings(conf)[0]
+    for count,team in enumerate(data):
+        data[count]['standings'] = standings[team['id']]
     data.sort(key=lambda x: (x["record"]['confProjectedWin'],x["record"]['confWin']), reverse=True)
-    return render_template('conference.html', data=data, conference = conf)
+    standingsData = []
+    for team in data:
+        add = []
+        count = 1
+        while(count < len(data)):
+            add.append(team['standings'][str(count)])
+            count += 1
+        standingsData.append(add)
+    standingsData = list(zip(*standingsData))
+    return render_template('conference.html', data=data, conference = conf, standingsData = standingsData)
 
 @conference.route('/conference')
 def conference_rank():
