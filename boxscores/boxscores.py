@@ -8,5 +8,5 @@ boxscore = Blueprint('boxscore', __name__)
 def get_boxscore(gameId,date):
     scores = get_scores(date)
     score = scores[gameId]
-    homeData, awayData = get_espn_boxscore(gameId)
-    return render_template('boxscore.html', score=score, homeData=homeData, awayData=awayData)
+    homeData, awayData, lastPlay = get_espn_boxscore(gameId)
+    return render_template('boxscore.html', score=score, homeData=homeData, awayData=awayData, lastPlay=lastPlay)

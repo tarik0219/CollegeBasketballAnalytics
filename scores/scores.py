@@ -160,6 +160,4 @@ def box_score(datesearch,search):
     data = add_sort(data)
     data = change_siteType(data)
     data = sorted(data, key=lambda x: (x['sort1'], x['sort2']) )
-    for key,value in data[0].items():
-        print(key)
     return render_template('scores.html', data = data, form = form, date = date, search = search, datesearch = datesearch)

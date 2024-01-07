@@ -52,6 +52,7 @@ def get_espn_boxscore(gameId):
     home = sports_json['boxscore']['players'][1]
     away = sports_json['boxscore']['players'][0]
     labels = home['statistics'][0]['labels']
+
     for player in home['statistics'][0]['athletes']:
         player_stats = {
             "name" : player['athlete']['displayName'],
@@ -77,7 +78,22 @@ def get_espn_boxscore(gameId):
             else:
                 player_stats[l] = s
         awayData.append(player_stats)
-    return homeData, awayData
+    lastPlay = {}
+    lastPlayResponse = sports_json['plays'][-1]
+    teamAID, teamAName = sports_json['boxscore']['teams'][0]['team']['id'], sports_json['boxscore']['teams'][0]['team']['displayName']
+    teamBID, teamBName = sports_json['boxscore']['teams'][1]['team']['id'], sports_json['boxscore']['teams'][1]['team']['displayName']
+
+    lastPlayTeam =lastPlayResponse.get('team',None)
+    if lastPlayTeam:
+        if lastPlayResponse['team']['id'] == teamAID:
+            lastPlay['team'] = teamAName
+        else:
+            lastPlay['team'] = teamBName
+    else:
+        lastPlay['team'] = None
+    lastPlay['text'] = lastPlayResponse['text']
+    lastPlay['clock'] = lastPlayResponse['clock']['displayValue']
+    return homeData, awayData, lastPlay
 
 
 def get_scores(date):

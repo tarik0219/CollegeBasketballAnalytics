@@ -99,6 +99,15 @@
                     <th style="width: 20%">{{score.homeTeam}}</th>
                     <th style="width: 5%">{{score.homeScore}}</th>
                 </tr>
+                <tr>
+                    <th colspan="4" style="color:red">
+                        {%if lastPlay.team != None %}
+                            Last Play {{lastPlay.clock}}: {{lastPlay.team}} {{lastPlay.text}}
+                        {% else %}
+                            Last Play {{lastPlay.clock}}: {{lastPlay.text}}
+                        {% endif %}
+                    </th>
+                </tr>
             </tbody>
         </table>
     </div>
