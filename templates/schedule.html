@@ -166,16 +166,7 @@
                         {% if game.completed %}
                             <td><a href="{{ ''.join(['/boxscore/', game.gameId, '/',game.dateString ]) }}">{{game.score}} - {{game.opponentScore}}</a></td> 
                         {% else %}  
-                            <td class="hide-on-mobile"></td> 
-                            {% if game.scorePrediction  %}
-                                <td class="on-mobile" style="font-size: 5px">
-                                {{game.scorePrediction}} - {{game.opponentScorePrediction}}
-                                <br>
-                                {{ "%.2f"|format(game.winProbability * 100)}}%
-                                </td>
-                            {% else %}
-                                <td class="on-mobile">99.00%</td>
-                            {% endif %}
+                            <td></td> 
                         {% endif %} 
                         
                         {% if game.result %}
