@@ -59,10 +59,11 @@
                 vertical-align: middle !important;
         }
         td {
-                font-size: 7px;
+                font-size: 10px;
                 text-align: center;
                 vertical-align: middle !important;
         }
+        
 
         img {
             max-width: 20px;
@@ -114,10 +115,10 @@
                 <th>Net</th>
                 <th></th>
                 <th>Opponent</th>
-                <th>Q</th>
+                <th>Quad</th>
                 <th class="hide-on-mobile">Conference</th>
                 <th class="on-mobile">Conf</th>
-                <th class="bigger-on-mobile">Score</th>
+                <th class="bigger-on-mobile">&nbsp;Score&nbsp;</th>
                 <th class="hide-on-mobile">Result</th>
                 <th>Line/Score Prediction</th>
             <tr>
@@ -125,8 +126,8 @@
         <tbody>
             <tbody id="myTable">
                     {% for game in data.games %}
-                    <tr>
-                        <td class="date-on-mobile">
+                    <tr style="height:50px">
+                        <td style = "font-size: 8px">
                             {{ game.date}}
                             <br>
                             {{ game.time}}ET
