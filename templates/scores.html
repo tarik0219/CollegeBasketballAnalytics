@@ -94,7 +94,7 @@
                     <td colspan="4" style="color:red">POSTPONED</td>
                     {% elif game.status == 'in' %}
                     <td colspan="4" style="color:red">{{ game.half}} {{ game.clock}} {{ game.broadcast}} <a
-                            href="{{ ''.join(['/boxscore/', game.id, '/', datesearch]) }}">Boxscore</a></td>
+                            href="{{ ''.join(['/boxscore/', game.gameId, '/', datesearch]) }}">Boxscore</a></td>
                     {% elif game.status == 'pre' and game.homeData != None and game.awayData != None %}
                     <td colspan="4">{{ game.time}} ET {{ game.broadcast}} <a
                             href="{{ ''.join(['/predict/', game.homeTeam, '/', game.awayTeam, '/', game.siteType ]) }}">Preview</a>
@@ -103,14 +103,14 @@
                     <td colspan="4">{{ game.time}} ET {{ game.broadcast}}</td>
                     {% elif game.status == 'post' and game.period > 2 %}
                     <td colspan="4" style="color:red">Final {{game.half}} <a
-                            href="{{ ''.join(['/boxscore/', game.id, '/', datesearch]) }}">Boxscore</a></td>
+                            href="{{ ''.join(['/boxscore/', game.gameId, '/', datesearch]) }}">Boxscore</a></td>
                     {% else %}
                     <td colspan="4" style="color:red">Final <a
-                            href="{{ ''.join(['/boxscore/', game.id, '/', datesearch]) }}">Boxscore</a></td>
+                            href="{{ ''.join(['/boxscore/', game.gameId, '/', datesearch]) }}">Boxscore</a></td>
                     {% endif %}
                 </tr>
                 <tr>
-                    {% if game.awayData != None %}
+                    {% if game.awayData |length != 0  %}
                     <td colspan="2" style="width: 40%"><img
                             src="{{ ''.join(['/static/pics/', game.awayTeam ,'.png']) }}"
                             onerror="this.onerror=null; this.src='/static/pics/basketball.png'"
@@ -144,7 +144,7 @@
 
                 </tr>
                 <tr>
-                    {% if game.homeData != None %}
+                    {% if game.homeData |length != 0   %}
                     <td colspan="2" style="width: 40%"><img
                             src="{{ ''.join(['/static/pics/', game.homeTeam ,'.png']) }}"
                             onerror="this.onerror=null; this.src='/static/pics/basketball.png'"
@@ -157,14 +157,14 @@
                     {% endif %}
 
                     <td style="width: 7%">{{ game.homeScore }}</td>
-                    {% if not game.line %}
+                    {% if not game.spread %}
                     <td style="width: 20%"></td>
-                    {% elif game.line != None and game.homeData != None %}
+                    {% elif game.spread != None and game.homeData |length != 0 %}
                     <td class style="width: 20%"><img src="{{ ''.join(['/static/pics/', game.homeTeam ,'.png']) }}"
                             onerror="this.onerror=null; this.src='/static/pics/basketball.png'"
                             alt="{{ ''.join([game.homeTeam]) }}" width="25" height="20"
-                            title="{{ ''.join([game.homeTeam]) }}">{% if game.line > 0 %}+{{ game.line}} O/U:
-                        {{game.overUnder}}{% else %}{{ game.line}} O/U: {{game.overUnder}}{% endif %}</td>
+                            title="{{ ''.join([game.homeTeam]) }}">{% if game.spread > 0 %}+{{ game.spread}} O/U:
+                        {{game.overUnder}}{% else %}{{ game.spread}} O/U: {{game.overUnder}}{% endif %}</td>
                     {% else %}
                     <td style="width: 20%"></td>
                     {% endif %}
