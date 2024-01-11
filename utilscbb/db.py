@@ -8,7 +8,6 @@ def get_all_team_data():
     response = requests.request("GET", url)
     return response.json()
 
-
 def get_team_data(teamId):
     url = cbbAnalyticsApiUrl + "/teamData/" + teamId
     response = requests.request("GET", url)

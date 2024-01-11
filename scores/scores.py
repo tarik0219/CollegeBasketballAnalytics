@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_wtf import FlaskForm
-from utilscbb.espn import get_scores, get_line_data
 from utilscbb.constants import CONF
 from datetime import datetime
 from wtforms import SelectField,SubmitField,validators
