@@ -112,9 +112,9 @@
                 <tr>
                     {% if game.awayData |length != 0  %}
                     <td colspan="2" style="width: 40%"><img
-                            src="{{ ''.join(['/static/pics/', game.awayTeam ,'.png']) }}"
+                            src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.awayTeamId,'.png']) }}"
                             onerror="this.onerror=null; this.src='/static/pics/basketball.png'"
-                            alt="{{ ''.join([game.awayTeam]) }}" width="25" height="20"
+                            alt="{{ ''.join([game.awayTeam]) }}" width="25" height="25"
                             title="{{ ''.join([game.awayTeam]) }}"><a
                             href="{{ ''.join(['/schedule/', game.awayTeamId ]) }}">{{ game.awayTeam }}</a>
                         #{{game.awayData.ranks.rank}}</td>
@@ -128,13 +128,13 @@
                         <td style="width: 15%"></td>
                     {% else %}
                         {% if game.homeScorePredict != None%}
-                        <td style="width: 15%"><img src="{{ ''.join(['/static/pics/', game.awayTeam ,'.png']) }}"
+                        <td style="width: 15%"><img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.awayTeamId,'.png']) }}"
                                 onerror="this.onerror=null; this.src='/static/pics/basketball.png'"
-                                alt="{{ ''.join([game.awayTeam]) }}" width="25" height="20"
+                                alt="{{ ''.join([game.awayTeam]) }}" width="25" height="25"
                                 title="{{ ''.join([game.awayTeam]) }}">{{game.awayScorePredict}}-<img
-                                src="{{ ''.join(['/static/pics/', game.homeTeam ,'.png']) }}"
+                                src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.homeTeamId,'.png']) }}"
                                 onerror="this.onerror=null; this.src='/static/pics/basketball.png'"
-                                alt="{{ ''.join([game.homeTeam]) }}" width="25" height="20"
+                                alt="{{ ''.join([game.homeTeam]) }}" width="25" height="25"
                                 title="{{ ''.join([game.homeTeam]) }}">{{game.homeScorePredict}}</td>
                         {% else %}
                         <td style="width: 15%"></td>
@@ -146,9 +146,9 @@
                 <tr>
                     {% if game.homeData |length != 0   %}
                     <td colspan="2" style="width: 40%"><img
-                            src="{{ ''.join(['/static/pics/', game.homeTeam ,'.png']) }}"
+                            src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.homeTeamId,'.png']) }}"
                             onerror="this.onerror=null; this.src='/static/pics/basketball.png'"
-                            alt="{{ ''.join([game.homeTeam]) }}" width="25" height="20"
+                            alt="{{ ''.join([game.homeTeam]) }}" width="25" height="25"
                             title="{{ ''.join([game.homeTeam]) }}"><a
                             href="{{ ''.join(['/schedule/', game.homeTeamId ]) }}">{{ game.homeTeam }}</a>
                         #{{game.homeData.ranks.rank}}</td>
@@ -160,9 +160,9 @@
                     {% if not game.spread %}
                     <td style="width: 20%"></td>
                     {% elif game.spread != None and game.homeData |length != 0 %}
-                    <td class style="width: 20%"><img src="{{ ''.join(['/static/pics/', game.homeTeam ,'.png']) }}"
+                    <td class style="width: 20%"><img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.homeTeamId,'.png']) }}"
                             onerror="this.onerror=null; this.src='/static/pics/basketball.png'"
-                            alt="{{ ''.join([game.homeTeam]) }}" width="25" height="20"
+                            alt="{{ ''.join([game.homeTeam]) }}" width="25" height="25"
                             title="{{ ''.join([game.homeTeam]) }}">{% if game.spread > 0 %}+{{ game.spread}} O/U:
                         {{game.overUnder}}{% else %}{{ game.spread}} O/U: {{game.overUnder}}{% endif %}</td>
                     {% else %}

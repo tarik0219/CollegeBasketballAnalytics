@@ -83,9 +83,9 @@
                 <tr>
                     <td>{{team.ranks.rank}}</td>
                     <td>
-                        <img src="{{ ''.join(['/static/pics/', team.teamName ,'.png']) }}"
+                        <img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',team.id,'.png']) }}"
                             onerror="this.onerror=null; this.src='/static/pics/basketball.png'"
-                            alt="{{ ''.join([team.teamName]) }}" width="25" height="20"
+                            alt="{{ ''.join([team.teamName]) }}" width="25" height="25"
                             title="{{ ''.join([team.teamName]) }}"></td>
                     <td>
                         <a href="{{ ''.join(['/schedule/', team.id ]) }}"

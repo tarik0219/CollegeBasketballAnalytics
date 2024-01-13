@@ -82,7 +82,7 @@
 
 
 <div class="container">
-    <h2><img src="{{ ''.join(['/static/pics/', data.teamData.teamName ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([data.teamData.teamName]) }}" width="50" height="40" title="{{ ''.join([data.teamData.teamName]) }}" >#{{data.teamData.ranks.rank}} {{data.teamData.teamName}} {{data.records.win}} - {{data.records.loss}} ({{data.records.confWin}} - {{data.records.confLoss}})</h2>
+    <h2><img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',data.teamID ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([data.teamData.teamName]) }}" width="50" height="50" title="{{ ''.join([data.teamData.teamName]) }}" >#{{data.teamData.ranks.rank}} {{data.teamData.teamName}} {{data.records.win}} - {{data.records.loss}} ({{data.records.confWin}} - {{data.records.confLoss}})</h2>
     <h3>Projected Record: {{data.records.projectedWin}} - {{data.records.projectedLoss}} ({{data.records.confProjectedWin}} - {{data.records.confProjectedLoss}})</h3>
     <div class="table-responsive">
         <table class="table table-hover table-bordered table-sm table-striped">
@@ -139,7 +139,7 @@
                         <td></td>
                         {% endif %}
         
-                        <td><img src="{{ ''.join(['/static/pics/', game.opponentName ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([game.opponentName]) }}" width="25" height="20" title="{{ ''.join([game.opponentName]) }}" ></td>
+                        <td><img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.opponentId ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([game.opponentName]) }}" width="25" height="25" title="{{ ''.join([game.opponentName]) }}" ></td>
                         
                         {% if game.opponentData  %}
                             {% if game.venue == "H"  %}
@@ -185,9 +185,9 @@
                         {% else %}
                             {% if game.odds.spread != None  %}
                                 {% if game.homeTeamId == data.teamID  %}
-                                    <td><img src="{{ ''.join(['/static/pics/', data.teamData.teamName ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([data.teamData.teamName]) }}" width="25" height="20" title="{{ ''.join([data.teamData.teamName]) }}" >{{game.odds.spread }}</td>
+                                    <td><img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',data.teamID ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([data.teamData.teamName]) }}" width="25" height="25" title="{{ ''.join([data.teamData.teamName]) }}" >{{game.odds.spread }}</td>
                                 {% else %}
-                                    <td><img src="{{ ''.join(['/static/pics/', game.opponentName ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([game.opponentName]) }}" width="25" height="20" title="{{ ''.join([game.opponentName]) }}" >{{game.odds.spread }}</td>
+                                    <td><img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.opponentId ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([game.opponentName]) }}" width="25" height="25" title="{{ ''.join([game.opponentName]) }}" >{{game.odds.spread }}</td>
                                 {% endif %}
                             {% else %}
                                 <td></td>
