@@ -46,7 +46,7 @@ def conference_stadnings(conf):
     standings = get_conference_standings(conf)[0]
     for count,team in enumerate(data):
         data[count]['standings'] = standings[team['id']]
-    data.sort(key=lambda x: (x["record"]['confProjectedWin'],x["record"]['confWin']), reverse=True)
+    data.sort(key=lambda x: (x["record"]['conferenceStanding']))
     return render_template('conference.html', data=data, conference = conf)
 
 @conference.route('/conference')

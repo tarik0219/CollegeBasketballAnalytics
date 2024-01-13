@@ -74,8 +74,9 @@
                     <th>Rank</th>
                     <th></th>
                     <th>Team</th>
-                    <th>Reccord</th>
-                    <th>Projected</th>
+                    <th>W-L</th>
+                    <th>GB</th>
+                    <th>Proj</th>
                 </tr>
             </thead>
             <tbody>
@@ -83,12 +84,13 @@
                 {% for team in data %}
                 <tr>
                     <td>{{loop.index}}</td>
-                    <td><img src="{{ ''.join(['/static/pics/', team.teamName ,'.png']) }}"
-                            alt="{{ ''.join([team.teamName]) }}" width="25" height="20"
+                    <td><img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',team.id,'.png']) }}"
+                            alt="{{ ''.join([team.teamName]) }}" width="25" height="25"
                             title="{{ ''.join([team.teamName]) }}"></td>
                     <td><a href="{{ ''.join(['/schedule/', team.id ]) }}" style="text-decoration: none;">{{ team.teamName
                             }}</a> #{{ team.ranks.rank }}</td>
                     <td>{{ team.record.confWin }} - {{ team.record.confLoss }}</td>
+                    <td>{{team.record.gamesBehind}}</td>
                     <td>{{ team.record.confProjectedWin }} - {{ team.record.confProjectedLoss }}</td>
                 </tr>
                 {% endfor %}
