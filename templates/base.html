@@ -82,16 +82,6 @@ text-decoration: none;
   height: 50px;
   width:  50px;
 }
-@media (max-width: 1000px) {
-    .coffee-button {
-        transform: scale(0.5);
-    }
-}
-.navbar-brand {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
 </style>
 
@@ -100,10 +90,7 @@ text-decoration: none;
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="/">
         <img src="/static/cbbAILogo_resized.png" class="logo" alt="Logo">
-        <span class="ml-2">CBB-AI</span>
-        <div class="coffee-button">
-            <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="cbbAi" data-color="#FF5F5F" data-emoji="" data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#FFDD00" ></script>
-        </div>      
+        <span class="brand-text">CBB-AI</span>     
     </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -118,6 +105,9 @@ text-decoration: none;
           </li>
           <li class="nav-item ">
             <a class="nav-item nav-link" href="/predict" style="font-size:3vmin;">Predict Games</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-item nav-link" href="/donate" style="font-size:3vmin;">Donate</a>
           </li>
         </ul>
       </div>
