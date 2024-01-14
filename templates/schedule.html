@@ -77,8 +77,34 @@
 
 
 <div class="container">
-    <h2><img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',data.teamID ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([data.teamData.teamName]) }}" width="50" height="50" title="{{ ''.join([data.teamData.teamName]) }}" >#{{data.teamData.ranks.rank}} {{data.teamData.teamName}} {{data.records.win}} - {{data.records.loss}} ({{data.records.confWin}} - {{data.records.confLoss}})</h2>
-    <h3>Projected Record: {{data.records.projectedWin}} - {{data.records.projectedLoss}} ({{data.records.confProjectedWin}} - {{data.records.confProjectedLoss}})</h3>
+    <table class="table table-hover table-bordered table-sm table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th></th>
+                <th>Rank</th>
+                <th>Team</th>
+                <th>W-L</th>
+                <th>Proj</th>
+                <th>ATS</th> 
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <img src="{{ 'https://a.espncdn.com/i/teamlogos/ncaa/500/' + data.teamID + '.png' }}" 
+                         onerror="this.onerror=null; this.src='/static/pics/basketball.png'" 
+                         alt="{{ data.teamData.teamName }}" 
+                         width="50" height="50" 
+                         title="{{ data.teamData.teamName }}" >
+                </td>
+                <td style="font-weight:bold">{{data.teamData.ranks.rank}}</td>
+                <td style="font-weight:bold">{{data.teamData.teamName}}</td>
+                <td style="font-weight:bold">{{data.records.win}}-{{data.records.loss}} ({{data.records.confWin}}-{{data.records.confLoss}})</td>
+                <td style="font-weight:bold">{{data.records.projectedWin}} - {{data.records.projectedLoss}} ({{data.records.confProjectedWin}} - {{data.records.confProjectedLoss}})</td>
+                <td style="font-weight:bold">{{data.records.atsWin}}-{{data.records.atsLoss}}-{{data.records.atsPush}}</td>
+            </tr>
+        </tbody>
+    </table>
     <div class="table-responsive">
         <table class="table table-hover table-bordered table-sm table-striped">
             <thead class="thead-dark">
@@ -93,11 +119,11 @@
             <tbody>
                 <tbody id="myTable">
                     <tr>
-                        <td>NET</td>  
-                        <td>{{ data.quadRecords.quad1.wins }} - {{ data.quadRecords.quad1.losses }}</td>
-                        <td>{{ data.quadRecords.quad2.wins }} - {{ data.quadRecords.quad2.losses }}</td>
-                        <td>{{ data.quadRecords.quad3.wins }} - {{ data.quadRecords.quad3.losses }}</td>
-                        <td>{{ data.quadRecords.quad4.wins }} - {{ data.quadRecords.quad4.losses }}</td>
+                        <td style="font-weight:bold">NET</td>  
+                        <td style="font-weight:bold">{{ data.quadRecords.quad1.wins }} - {{ data.quadRecords.quad1.losses }}</td>
+                        <td style="font-weight:bold">{{ data.quadRecords.quad2.wins }} - {{ data.quadRecords.quad2.losses }}</td>
+                        <td style="font-weight:bold">{{ data.quadRecords.quad3.wins }} - {{ data.quadRecords.quad3.losses }}</td>
+                        <td style="font-weight:bold">{{ data.quadRecords.quad4.wins }} - {{ data.quadRecords.quad4.losses }}</td>
                     </tr>
             </tbody>
     </table>
