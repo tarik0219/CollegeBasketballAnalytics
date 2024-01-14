@@ -82,6 +82,7 @@
                     <td>
                         <a href="{{ ''.join(['/schedule/', team.id ]) }}"
                             style="text-decoration: none;">{{team.teamName}}</a>
+                            {{team.record.win}}-{{team.record.loss}} ({{team.record.confWin}}-{{team.record.confLoss}})
                     </td>
                     <td><a href="{{ ''.join(['/conference/', team.conference]) }}"
                         style="text-decoration: none;">{{team.conference}}</a></td>
