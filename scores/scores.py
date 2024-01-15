@@ -1,18 +1,11 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_wtf import FlaskForm
-from utilscbb.constants import CONF
+from constants.constants import CONF
 from datetime import datetime
 from wtforms import SelectField,SubmitField,validators
 from wtforms.fields.html5 import DateField
-from utilscbb.predict import call_prediction_api, call_prediction_list_api
 import warnings
-from utilscbb.db import get_all_team_data
-from utilscbb.constants import dbFileName
-from utilscbb.cahce import get_cache
-import requests
-import json
-from utilscbb.cahce import get_cache
-from utilscbb.scores import call_scores_api
+from utilscbb.api import get_scores
 warnings.filterwarnings(action='ignore')
 
 
@@ -62,7 +55,7 @@ def box_score(datesearch, search):
         datesearch = request.form.get('entrydate')
         session['datesearch'] = datesearch
         return redirect(url_for("scores.box_score", search=search, datesearch=datesearch))
-    data = call_scores_api(datesearch)
+    data = get_scores(datesearch)
     data = change_siteType(data)
     data = query_data(data, search)
     date = datesearch[4:6] + '/' + datesearch[6:8] + '/' + datesearch[0:4]

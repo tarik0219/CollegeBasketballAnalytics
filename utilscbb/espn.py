@@ -2,8 +2,6 @@ import requests
 import json
 from datetime import datetime
 from dateutil import tz
-from utilscbb.cahce import get_cache
-
 
 def convertDateTime(dateTime):
     from_zone = tz.gettz("Africa/Accra")
@@ -24,24 +22,8 @@ def get_half(period):
         return "1st"
     elif period == 2:
         return "2nd"
-    elif period == 3:
-        return "OT"
-    elif period == 4:
-        return "2OT" 
-    elif period == 5:
-        return "3OT" 
-    elif period == 6:
-        return "4OT" 
-    elif period == 7:
-        return "5OT" 
-    elif period == 8:
-        return "6OT" 
-    elif period == 9:
-        return "7OT" 
-    elif period == 10:
-        return "8OT" 
-    elif period == 10:
-        return "9OT"   
+    elif period >= 3:
+        return f"{period}OT"  
 
 def get_espn_boxscore(gameId):
     homeData = []
@@ -167,19 +149,3 @@ def get_scores(date):
     except:
         return {}
     
-def get_line_data(gameId):
-    query, cache = get_cache()
-    cahceResponse = cache.search(query.gameId == gameId)
-    if len(cahceResponse) != 0:
-        return json.loads(cahceResponse[0]["response"])
-    url = "https://sports.core.api.espn.com/v2/sports/basketball/leagues/mens-college-basketball/events/{}/competitions/{}/odds?=".format(gameId,gameId)
-    payload={}
-    headers = {}
-    response = requests.request("GET", url, headers=headers, data=payload)
-    cache.insert(
-        {
-            "gameId":gameId,
-            "response": json.dumps(response.json())
-        }
-    )
-    return response.json()

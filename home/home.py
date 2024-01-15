@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template
-from utilscbb.db import get_all_team_data
-from utilscbb.constants import dbFileName
+from utilscbb.api import get_all_team_data
 
 home = Blueprint('home', __name__)
 

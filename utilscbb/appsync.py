@@ -1,7 +1,7 @@
 from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
 from config.config import apiKey
-from utilscbb.constants import appSyncURL
+from constants import constants
 from utilscbb.query import get_schedule_query
 
 
@@ -12,7 +12,7 @@ def get_schedule_data(teamID, year, netRank):
         "netRank": netRank
     }
     query = gql(get_schedule_query())
-    transport = AIOHTTPTransport(url=appSyncURL, headers={'x-api-key': apiKey})
+    transport = AIOHTTPTransport(url=constants.APP_SYNC_URL, headers={'x-api-key': apiKey})
     client = Client(transport=transport)
     result = client.execute(query, variable_values=params)
     return result

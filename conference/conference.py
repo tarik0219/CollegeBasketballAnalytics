@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from utilscbb.db import get_all_team_data, get_conference_standings
+from utilscbb.api import get_all_team_data, get_conference_standings
 
 
 conference = Blueprint('conference', __name__)
