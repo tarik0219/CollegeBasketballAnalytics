@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %} {{conference}} {% endblock %}
+{% block content %}
+<meta charset="UTF-8">
+<title>2023 College Basketball AI Rankings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
+    integrity="sha512-5Ad5E5eQ/7ObYvhnzKjMk21bscS1S7GnmvkiOu9qVdO4gs4fTbTtDY8Tc3qyqKfBtGczh03i9QIVxojd37RlZg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    /* Add your custom styles here */
+    .container {
+        margin-top: 10px;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 48px;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px #fff;
+    }
+
+    table {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th,
+    td {
+        font-size: 18px;
+        text-align: center;
+        vertical-align: middle !important;
+    }
+
+
+    /* Styles for mobile devices */
+    @media only screen and (max-width: 1000px) {
+        .container {
+            margin-top: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px #fff;
+        }
+
+        th,
+        td {
+            font-size: 8px;
+            text-align: center;
+            vertical-align: middle !important;
+        }
+
+    }
+</style>
+
+<div class="container">
+    <div class="container mt-5">
+        <div class="table-responsive">
+            *All odds are pregame odds and in decimal format
+            <table class="table table-hover table-bordered table-sm table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Game</th>
+                        <th>Best Home Odds</th>
+                        <th>Best Away Odds</th>
+                        <th>CBB-AI %</th>
+                        <th>CBB-AI Value Bet</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tbody>
+
+                    {% for game in bestOdds %}
+                    <tr>
+                        <td>
+                            <img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.awayTeamId,'.png']) }}" alt="{{ ''.join([game.awayTeamName]) }}" width="25" height="25" title="{{ ''.join([game.awayTeamId]) }}">@<img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.homeTeamId,'.png']) }}" alt="{{ ''.join([game.homeTeamName]) }}" width="25" height="25" title="{{ ''.join([game.homeTeamId]) }}">
+                        </td>
+                        <td>
+                            <img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.homeTeamId,'.png']) }}" alt="{{ ''.join([game.homeTeamName]) }}" width="25" height="25" title="{{ ''.join([game.homeTeamId]) }}">{{ game.homeTeamOdds }}
+                            <br>
+                            {{ game.homeTeamOddsSite }}
+                        </td>
+                        <td>
+                            <img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.awayTeamId,'.png']) }}" alt="{{ ''.join([game.awayTeamName]) }}" width="25" height="25" title="{{ ''.join([game.awayTeamId]) }}">{{ game.awayTeamOdds }}
+                            <br>
+                            {{ game.awayTeamOddsSite }}
+                        </td>
+                        <td>
+                            {% set value = game.prob * 100 %}
+                            <img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.homeTeamId,'.png']) }}" alt="{{ ''.join([game.homeTeamName]) }}" width="25" height="25" title="{{ ''.join([game.homeTeamId]) }}">{{ value|round(2) }}%
+                            <br>
+                            {% set value = (1-game.prob) * 100 %}
+                            <img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.awayTeamId,'.png']) }}" alt="{{ ''.join([game.awayTeamName]) }}" width="25" height="25" title="{{ ''.join([game.awayTeamId]) }}">{{value|round(2)}}%
+                        </td>
+                        {% if game.homeTeamBet %}
+                            <td><img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.homeTeamId,'.png']) }}" alt="{{ ''.join([game.homeTeamName]) }}" width="25" height="25" title="{{ ''.join([game.homeTeamId]) }}"></td>
+                        {% else %}
+                            <td><img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.awayTeamId,'.png']) }}" alt="{{ ''.join([game.awayTeamName]) }}" width="25" height="25" title="{{ ''.join([game.awayTeamId]) }}"></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+    </div>
+</div>
+{% endblock %}

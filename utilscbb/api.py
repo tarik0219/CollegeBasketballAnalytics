@@ -10,6 +10,11 @@ def get_all_team_data():
     response = requests.request("GET", url)
     return response.json()
 
+def get_all_odds_by_date(date):
+    url = constants.CBB_AP_API_URL + "/odds/date/" + date
+    response = requests.request("GET", url)
+    return response.json()
+
 def get_team_data(teamId):
     url = constants.CBB_AP_API_URL + "/teamData/" + teamId
     response = requests.request("GET", url)
@@ -59,5 +64,7 @@ def get_schedule(teamID,year,netRankBool):
     response = requests.request("POST", url, headers=headers, data=payload).json()
     return response
 
-def get_db():
-    return {}
+def get_odds_oddsAPI():
+    url = constants.CBB_AP_API_URL + "/odds/oddsAPI"
+    response = requests.request("GET", url)
+    return response.json()

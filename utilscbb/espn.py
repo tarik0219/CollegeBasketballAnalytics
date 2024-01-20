@@ -13,7 +13,6 @@ def convertDateTime(dateTime):
     eastern = str(utc.astimezone(to_zone))
     date = eastern.split(" ")[0]
     time = eastern.split(" ")[1].split("-")[0]
-    
     return date, time
     
 
