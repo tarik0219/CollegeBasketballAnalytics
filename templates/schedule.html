@@ -91,7 +91,7 @@
                     <img src="{{ 'https://a.espncdn.com/i/teamlogos/ncaa/500/' + data.teamID + '.png' }}" 
                          onerror="this.onerror=null; this.src='/static/pics/basketball.png'" 
                          alt="{{ data.teamData.teamName }}" 
-                         width="50" height="50" 
+                         width="25" height="25" 
                          title="{{ data.teamData.teamName }}" >
                 </td>
                 <td style="font-weight:bold">{{data.teamData.ranks.rank}}</td>
@@ -106,7 +106,7 @@
         <table class="table table-hover table-bordered table-sm table-striped">
             <thead class="thead-dark">
                 <tr>
-                    <th>Rankings</th> 
+                    <th>Quad Record</th> 
                     <th>Quad 1</th>
                     <th>Quad 2</th>
                     <th>Quad 3</th>
@@ -116,11 +116,18 @@
             <tbody>
                 <tbody id="myTable">
                     <tr>
-                        <td style="font-weight:bold">NET</td>  
+                        <td style="font-weight:bold">Current</td>  
                         <td style="font-weight:bold">{{ data.quadRecords.quad1.wins }} - {{ data.quadRecords.quad1.losses }}</td>
                         <td style="font-weight:bold">{{ data.quadRecords.quad2.wins }} - {{ data.quadRecords.quad2.losses }}</td>
                         <td style="font-weight:bold">{{ data.quadRecords.quad3.wins }} - {{ data.quadRecords.quad3.losses }}</td>
                         <td style="font-weight:bold">{{ data.quadRecords.quad4.wins }} - {{ data.quadRecords.quad4.losses }}</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold">Projected</td>  
+                        <td style="font-weight:bold">{{ data.projectedQuadRecords.quad1.wins }} - {{ data.projectedQuadRecords.quad1.losses }}</td>
+                        <td style="font-weight:bold">{{ data.projectedQuadRecords.quad2.wins }} - {{ data.projectedQuadRecords.quad2.losses }}</td>
+                        <td style="font-weight:bold">{{ data.projectedQuadRecords.quad3.wins }} - {{ data.projectedQuadRecords.quad3.losses }}</td>
+                        <td style="font-weight:bold">{{ data.projectedQuadRecords.quad4.wins }} - {{ data.projectedQuadRecords.quad4.losses }}</td>
                     </tr>
             </tbody>
     </table>

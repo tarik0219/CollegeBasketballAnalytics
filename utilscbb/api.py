@@ -68,3 +68,9 @@ def get_odds_oddsAPI():
     url = constants.CBB_AP_API_URL + "/odds/oddsAPI"
     response = requests.request("GET", url)
     return response.json()
+
+
+def get_bracketology_api():
+    url = constants.CBB_AP_API_URL + "/bracketology"
+    response = requests.request("GET", url)
+    return response.json()

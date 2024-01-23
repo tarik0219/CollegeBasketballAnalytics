@@ -74,6 +74,5 @@ def daily_odds():
             keySelectedSportsBooks.add(bookmakers[sportsBook])
         response = get_odds_oddsAPI()
         bestOdds = get_best_odds(response,keySelectedSportsBooks)
-        print(bestOdds)
         return render_template('dailyOddsResult.html', bestOdds=bestOdds)
     return render_template('dailyOdds.html', bookMakerList=bookMakerList)

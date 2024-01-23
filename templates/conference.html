@@ -108,9 +108,9 @@
                 <tr>
                     {% set index = loop.index -%}
                     <td>{{loop.index}}</td>
-                    <td><img src="{{ ''.join(['/static/pics/', team.teamName ,'.png']) }}"
-                            alt="{{ ''.join([team.teamName]) }}" width="25" height="20"
-                            title="{{ ''.join([team.teamName]) }}"></td>
+                    <td><img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',team.id,'.png']) }}"
+                        alt="{{ ''.join([team.teamName]) }}" width="25" height="25"
+                        title="{{ ''.join([team.teamName]) }}"></td>
                     {% for team2 in data %}
                         {% set index2 = loop.index|string -%}
                         <td>{{data[index-1].standings[index2]}}%</td>

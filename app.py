@@ -9,7 +9,7 @@ from predict.predict import predict
 from boxscores.boxscores import boxscore
 from dailyOdds.dailyOdds import dailyOdds
 # from history.history import history
-# from bracketology.bracketology import bracket
+from bracketology.bracketology import bracket
 from donate.donate import donate
 from about.about import about
 from disclaimer.disclaimer import  disclaimer
@@ -29,7 +29,7 @@ app.register_blueprint(conference)
 app.register_blueprint(predict)
 app.register_blueprint(boxscore)
 app.register_blueprint(dailyOdds)
-# app.register_blueprint(bracket)
+app.register_blueprint(bracket)
 app.register_blueprint(donate)
 app.register_blueprint(about)
 app.register_blueprint(disclaimer)
