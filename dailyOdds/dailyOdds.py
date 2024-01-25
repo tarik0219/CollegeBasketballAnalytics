@@ -50,6 +50,10 @@ def get_best_odds(finalOdds, selectedSportsBooks):
         odds['awayTeamBet'] = False
         odds['homeTeamId'] = game['homeTeamId']
         odds['awayTeamId'] = game['awayTeamId']
+        homeOdds = 1/homeTeamOdds
+        myOdds = game['prob']
+        if myOdds + .2 < homeOdds  or myOdds  - .2 > homeOdds:
+            continue
         if game['prob'] > 1/homeTeamOdds:
             odds['homeTeamBet'] = True
         if 1 - game['prob'] > 1/awayTeamOdds:
