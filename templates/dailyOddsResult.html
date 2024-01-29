@@ -76,7 +76,13 @@
                     {% for game in bestOdds %}
                     <tr>
                         <td>
-                            <img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.awayTeamId,'.png']) }}" alt="{{ ''.join([game.awayTeamName]) }}" width="25" height="25" title="{{ ''.join([game.awayTeamId]) }}">@<img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.homeTeamId,'.png']) }}" alt="{{ ''.join([game.homeTeamName]) }}" width="25" height="25" title="{{ ''.join([game.homeTeamId]) }}">
+                            <img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.awayTeamId,'.png']) }}" alt="{{ ''.join([game.awayTeamName]) }}" width="25" height="25" title="{{ ''.join([game.awayTeamId]) }}">
+                            {{ game.homeTeamName }}
+                            <br>
+                            @
+                            <br
+                            <img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.homeTeamId,'.png']) }}" alt="{{ ''.join([game.homeTeamName]) }}" width="25" height="25" title="{{ ''.join([game.homeTeamId]) }}">
+                            {{ game.awayTeamName }}
                         </td>
                         <td>
                             <img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.homeTeamId,'.png']) }}" alt="{{ ''.join([game.homeTeamName]) }}" width="25" height="25" title="{{ ''.join([game.homeTeamId]) }}">{{ game.homeTeamOdds }}

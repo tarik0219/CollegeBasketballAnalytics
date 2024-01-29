@@ -74,3 +74,9 @@ def get_bracketology_api():
     url = constants.CBB_AP_API_URL + "/bracketology"
     response = requests.request("GET", url)
     return response.json()
+
+
+def get_seed_api():
+    url = constants.CBB_AP_API_URL + "/seed"
+    response = requests.request("GET", url)
+    return response.json()
