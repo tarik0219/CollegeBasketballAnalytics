@@ -27,7 +27,9 @@
         vertical-align: middle !important;
     }
 
-
+    #quad{
+        display: none;
+    }
 
     /* Styles for mobile devices */
     @media only screen and (max-width: 1000px) {
@@ -63,6 +65,8 @@
         
     }
 
+    
+
     @media only screen and (min-width: 1001px) {
         .on-mobile {
             display: none;
@@ -78,8 +82,8 @@
         <thead class="thead-dark">
             <tr>
                 <th></th>
-                <th>Rank</th>
                 <th>Team</th>
+                <th>Conference</th>
                 <th>W-L</th>
                 <th>Proj</th>
                 <th>ATS</th> 
@@ -94,11 +98,37 @@
                          width="25" height="25" 
                          title="{{ data.teamData.teamName }}" >
                 </td>
-                <td style="font-weight:bold">{{data.teamData.ranks.rank}}</td>
                 <td style="font-weight:bold">{{data.teamData.teamName}}</td>
+                <td><a href="{{ ''.join(['/conference/', data.teamData.conference]) }}" style="text-decoration: none;">{{ data.teamData.conference }}</a></td>
                 <td style="font-weight:bold">{{data.records.win}}-{{data.records.loss}} ({{data.records.confWin}}-{{data.records.confLoss}})</td>
                 <td style="font-weight:bold">{{data.records.projectedWin}} - {{data.records.projectedLoss}} ({{data.records.confProjectedWin}} - {{data.records.confProjectedLoss}})</td>
                 <td style="font-weight:bold">{{data.records.atsWin}}-{{data.records.atsLoss}}-{{data.records.atsPush}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-hover table-bordered table-sm table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>CBB-AI</th>
+                <th>AP</th>
+                <th>NET</th>
+                <th>OFF</th> 
+                <th>DEF</th>
+                <th>TEMPO</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="font-weight:bold">{{data.teamData.ranks.rank}}</td>
+                {% if data.teamData.ranks.ap_rank > 25 %}
+                    <td style="font-weight:bold">NR</td>
+                {% else %}
+                    <td style="font-weight:bold">{{data.teamData.ranks.ap_rank}}</td>
+                {% endif %}
+                <td style="font-weight:bold">{{data.teamData.ranks.net_rank}}</td>
+                <td style="font-weight:bold">{{data.teamData.ranks.rankOff}}</td>
+                <td style="font-weight:bold">{{data.teamData.ranks.rankDef}}</td>
+                <td style="font-weight:bold">{{data.teamData.ranks.rankTempo}}</td>
             </tr>
         </tbody>
     </table>
@@ -131,7 +161,10 @@
                     </tr>
             </tbody>
     </table>
-
+    </div>
+    <button onclick="myFunction()" class="btn btn-primary">Change View</button>
+    <br>
+    <div class="table-responsive" id="schedule">
     <table class="table table-hover table-bordered table-sm table-striped">
         <thead class="thead-dark">
             <tr>
@@ -222,10 +255,122 @@
                     {% endfor %}
             </tbody>
     </table>
-    * - Away Game
-    ** - Neutral Site
+    </div>
+    <div class="table-responsive" id="quad">
+        {% for n in range(4) %}
+        <table class="table table-hover table-bordered table-sm table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th colspan="10">Quad {{n + 1}}</th>
+                </tr>
+                <tr>
+                    <th>Date/Time</th>
+                    <th class="hide-on-mobile">Type</th>
+                    <th>Net</th>
+                    <th></th>
+                    <th>Opponent</th>
+                    <th class="hide-on-mobile">Conference</th>
+                    <th class="on-mobile">Conf</th>
+                    <th class="bigger-on-mobile">&nbsp;Score&nbsp;</th>
+                    <th class="hide-on-mobile">Result</th>
+                    <th>Line/Score Prediction</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tbody id="myTable">
+                        {% for game in data.games %}
+                            {% if game.quad == n + 1 %}
+                            <tr style="height:50px">
+                                <td style = "font-size: 8px">
+                                    {{ game.date}}
+                                    <br>
+                                    {{ game.time}}ET
+                                </td>
+                                <td class="hide-on-mobile">{{ game.gameType }}</td>
+                                {% if game.opponentData%}
+                                <td>{{ game.opponentData.ranks.net_rank }}</td>
+                                {% else %}
+                                <td></td>
+                                {% endif %}
+                
+                                <td><img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.opponentId ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([game.opponentName]) }}" width="25" height="25" title="{{ ''.join([game.opponentName]) }}" ></td>
+                                
+                                {% if game.opponentData  %}
+                                    {% if game.venue == "H"  %}
+                                        <td><a href="{{ ''.join(['/schedule/', game.opponentId ]) }}">{{ game.opponentName }}</a> #{{game.opponentData.ranks.rank}}</td>
+                                    {% elif game.venue == "@" %}
+                                        <td><a href="{{ ''.join(['/schedule/', game.opponentId ]) }}">*{{ game.opponentName }}</a> #{{game.opponentData.ranks.rank}}</td>
+                                    {% else %}
+                                        <td><a href="{{ ''.join(['/schedule/', game.opponentId ]) }}">**{{ game.opponentName }}</a> #{{game.opponentData.ranks.rank}}</td>
+                                    {% endif %}
+                                    <td><a href="{{ ''.join(['/conference/', game.opponentData.conference]) }}" style="text-decoration: none;">{{ game.opponentData.conference }}</a></td>
+                                {% else %}
+                                    {% if game.venue == "H"  %}
+                                        <td>{{ game.opponentName }}</td>
+                                    {% elif game.venue == "@" %}
+                                        <td>*{{ game.opponentName }}</td>
+                                    {% else %}
+                                        <td>**{{ game.opponentName }}</td>
+                                    {% endif %}
+                                    <td></td>
+                                {% endif %}
+                                
+        
+                                {% if game.completed %}
+                                    <td><a href="{{ ''.join(['/boxscore/', game.gameId, '/',game.dateString ]) }}">{{game.score}} - {{game.opponentScore}}</a></td> 
+                                {% else %}  
+                                    <td></td> 
+                                {% endif %} 
+                                
+                                {% if game.result %}
+                                    <td class="hide-on-mobile">{{game.result}}</td> 
+                                {% else %}
+                                    <td class="hide-on-mobile"></td> 
+                                {% endif %}
+            
+                                {% if game.completed == False  %}
+                                    {% if game.scorePrediction  %}
+                                        <td>{{game.scorePrediction}} - {{game.opponentScorePrediction}} | {{ "%.2f"|format(game.winProbability * 100)}}%</td>
+                                    {% else %}
+                                        <td>99.00%</td>
+                                    {% endif %}
+                                {% else %}
+                                    {% if game.odds.spread != None  %}
+                                        {% if game.homeTeamId == data.teamID  %}
+                                            <td><img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',data.teamID ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([data.teamData.teamName]) }}" width="25" height="25" title="{{ ''.join([data.teamData.teamName]) }}" >{{game.odds.spread }}</td>
+                                        {% else %}
+                                            <td><img src="{{ ''.join(['https://a.espncdn.com/i/teamlogos/ncaa/500/',game.opponentId ,'.png']) }}" onerror="this.onerror=null; this.src='/static/pics/basketball.png'" alt="{{ ''.join([game.opponentName]) }}" width="25" height="25" title="{{ ''.join([game.opponentName]) }}" >{{game.odds.spread }}</td>
+                                        {% endif %}
+                                    {% else %}
+                                        <td></td>
+                                    {% endif %}
+                                {% endif %}
+                            </tr>
+                                {% endif %}
+                            {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+        * - Away Game
+        ** - Neutral Site
+    </div>
 </div>
+<br>
+<br>
 
-<br>
-<br>
+<script>
+    function myFunction() {
+        var x = document.getElementById("schedule");
+        var y = document.getElementById("quad");
+        var button = document.getElementById("toggleButton");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+            y.style.display = "none";
+        } else {
+            x.style.display = "none";
+            y.style.display = "block";
+        }
+    }
+    </script>
+
 {% endblock %}
