@@ -153,6 +153,13 @@
                         <td style="font-weight:bold">{{ data.quadRecords.quad4.wins }} - {{ data.quadRecords.quad4.losses }}</td>
                     </tr>
                     <tr>
+                        <td style="font-weight:bold">Remaining</td>  
+                        <td style="font-weight:bold">{{ data.projectedQuadRecords.quad1.wins +  data.projectedQuadRecords.quad1.losses - data.quadRecords.quad1.wins - data.quadRecords.quad1.losses}}</td>
+                        <td style="font-weight:bold">{{ data.projectedQuadRecords.quad2.wins +  data.projectedQuadRecords.quad2.losses - data.quadRecords.quad2.wins - data.quadRecords.quad2.losses}}</td>
+                        <td style="font-weight:bold">{{ data.projectedQuadRecords.quad3.wins +  data.projectedQuadRecords.quad3.losses - data.quadRecords.quad3.wins - data.quadRecords.quad3.losses}}</td>
+                        <td style="font-weight:bold">{{ data.projectedQuadRecords.quad4.wins +  data.projectedQuadRecords.quad4.losses - data.quadRecords.quad4.wins - data.quadRecords.quad4.losses}}</td>
+                    </tr>
+                    <tr>
                         <td style="font-weight:bold">Projected</td>  
                         <td style="font-weight:bold">{{ data.projectedQuadRecords.quad1.wins }} - {{ data.projectedQuadRecords.quad1.losses }}</td>
                         <td style="font-weight:bold">{{ data.projectedQuadRecords.quad2.wins }} - {{ data.projectedQuadRecords.quad2.losses }}</td>
