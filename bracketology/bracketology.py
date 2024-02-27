@@ -10,6 +10,16 @@ def teams_to_dict(teams):
         team_dict[team['teamName']] = team
     return team_dict
 
+
+def call_espn_boxscore():
+    pass
+
+
+
+@bracket.route('/bracket')
+def get_bracket():
+    return render_template('bracket.html')
+
 @bracket.route('/bracketology' , methods=['GET','POST'])
 def get_bracketology():
     bracketology = get_bracketology_api()

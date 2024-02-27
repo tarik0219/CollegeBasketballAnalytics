@@ -96,7 +96,7 @@
                          onerror="this.onerror=null; this.src='/static/pics/basketball.png'" 
                          alt="{{ data.teamData.teamName }}" 
                          width="25" height="25" 
-                         title="{{ data.teamData.teamName }}" >
+                         title="{{ data.teamData.teamName }}">
                 </td>
                 <td style="font-weight:bold">{{data.teamData.teamName}}</td>
                 <td><a href="{{ ''.join(['/conference/', data.teamData.conference]) }}" style="text-decoration: none;">{{ data.teamData.conference }}</a></td>
@@ -169,7 +169,7 @@
             </tbody>
     </table>
     </div>
-    <button onclick="myFunction()" class="btn btn-primary">Change View</button>
+    <button onclick="myFunction()" class="btn btn-primary">Quad Toggle</button>
     <br>
     <div class="table-responsive" id="schedule">
     <table class="table table-hover table-bordered table-sm table-striped">
@@ -184,6 +184,7 @@
                 <th class="hide-on-mobile">Conference</th>
                 <th class="on-mobile">Conf</th>
                 <th class="bigger-on-mobile">&nbsp;Score&nbsp;</th>
+                <th class="on-mobile">R</th>
                 <th class="hide-on-mobile">Result</th>
                 <th>Line/Score Prediction</th>
             <tr>
@@ -236,9 +237,9 @@
                         {% endif %} 
                         
                         {% if game.result %}
-                            <td class="hide-on-mobile">{{game.result}}</td> 
+                            <td>{{game.result}}</td> 
                         {% else %}
-                            <td class="hide-on-mobile"></td> 
+                            <td></td> 
                         {% endif %}
     
                         {% if game.completed == False  %}
@@ -279,6 +280,7 @@
                     <th class="hide-on-mobile">Conference</th>
                     <th class="on-mobile">Conf</th>
                     <th class="bigger-on-mobile">&nbsp;Score&nbsp;</th>
+                    <th class="on-mobile">R</th>
                     <th class="hide-on-mobile">Result</th>
                     <th>Line/Score Prediction</th>
                 </tr>
@@ -330,9 +332,9 @@
                                 {% endif %} 
                                 
                                 {% if game.result %}
-                                    <td class="hide-on-mobile">{{game.result}}</td> 
+                                    <td>{{game.result}}</td> 
                                 {% else %}
-                                    <td class="hide-on-mobile"></td> 
+                                    <td></td> 
                                 {% endif %}
             
                                 {% if game.completed == False  %}
@@ -378,6 +380,6 @@
             y.style.display = "block";
         }
     }
-    </script>
+</script>
 
 {% endblock %}

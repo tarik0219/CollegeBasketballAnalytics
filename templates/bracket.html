@@ -1,0 +1,426 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+    <style>
+        /*
+ *  Flex Layout Specifics
+*/
+main{
+  display:flex;
+  flex-direction:row;
+}
+.round{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  width:200px;
+  list-style:none;
+  padding:0;
+}
+  .round .spacer{ flex-grow:1; }
+  .round .spacer:first-child,
+  .round .spacer:last-child{ flex-grow:.5; }
+
+  .round .game-spacer{
+    flex-grow:1;
+  }
+
+/*
+ *  General Styles
+*/
+body{
+  font-family:sans-serif;
+  font-size:small;
+  padding:10px;
+  line-height:1.4em;
+}
+
+li.game{
+  padding-left:20px;
+}
+
+  li.game.winner{
+    font-weight:bold;
+  }
+  li.game span{
+    float:right;
+    margin-right:5px;
+  }
+
+  li.game-top{ border-bottom:1px solid #aaa; }
+
+  li.game-spacer{ 
+    border-right:1px solid #aaa;
+    min-height:40px;
+  }
+
+  li.game-bottom{ 
+    border-top:1px solid #aaa;
+  }
+
+    #south{
+        display: none;
+    }
+    #firstFour{
+        display: none;
+    }
+
+</style>
+    <h1>2013 NCAA Tournament - Midwest Bracket</h1>
+    <button onclick="firstFour()" class="btn btn-primary">FirstFour</button>
+    <button onclick="midwest()" class="btn btn-primary">Midwest</button>
+    <button onclick="south()" class="btn btn-primary">South</button>
+    <div id="firstFour">
+    <main>
+        <ul class="round round-1">
+        <li class="spacer">&nbsp;</li>
+        <li class="game game-top winner">1 
+            Lousville
+            <span>79</span>
+        </li>
+        <li class="game game-spacer">
+            <center>
+                Game Time 12:15 PM
+                <br>
+                Current Score
+            </center>
+            
+        </li>
+        <li class="game game-bottom ">
+            16
+            NC A&T 
+            <span>48</span>
+        </li>
+        <li class="spacer">&nbsp;</li>
+        <li class="game game-top winner">1 
+            Lousville
+            <span>79</span>
+        </li>
+        <li class="game game-spacer">
+            <center>
+                Game Time 12:15 PM
+                <br>
+                Current Score
+            </center>
+            
+        </li>
+        <li class="game game-bottom ">
+            16
+            NC A&T 
+            <span>48</span>
+        </li>
+        <li class="spacer">&nbsp;</li>
+        <li class="game game-top winner">1 
+            Lousville
+            <span>79</span>
+        </li>
+        <li class="game game-spacer">
+            <center>
+                Game Time 12:15 PM
+                <br>
+                Current Score
+            </center>
+            
+        </li>
+        <li class="game game-bottom ">
+            16
+            NC A&T 
+            <span>48</span>
+        </li>
+        <li class="spacer">&nbsp;</li>
+        <li class="game game-top winner">1 
+            Lousville
+            <span>79</span>
+        </li>
+        <li class="game game-spacer">
+            <center>
+                Game Time 12:15 PM
+                <br>
+                Current Score
+            </center>
+            
+        </li>
+        <li class="game game-bottom ">
+            16
+            NC A&T 
+            <span>48</span>
+        </li>
+        
+    </ul>
+    </main>
+    </div>
+    <div id="midwest">
+    <main>
+      <ul class="round round-1">
+        <li class="spacer">&nbsp;</li>
+        <li class="game game-top winner">1 
+            <img src="{{ 'https://a.espncdn.com/i/teamlogos/ncaa/500/' + '356' + '.png' }}" 
+                         onerror="this.onerror=null; this.src='/static/pics/basketball.png'" 
+                         alt="test" 
+                         width="20" height="20" 
+                         title="test">
+            Lousville
+            <span>79</span>
+        </li>
+        <li class="game game-spacer">
+            <center>
+                Game Time 12:15 PM
+                <br>
+                Current Score
+            </center>
+            
+        </li>
+        <li class="game game-bottom ">
+            16
+            <img src="{{ 'https://a.espncdn.com/i/teamlogos/ncaa/500/' + '356' + '.png' }}" 
+                         onerror="this.onerror=null; this.src='/static/pics/basketball.png'" 
+                         alt="test" 
+                         width="20" height="20" 
+                         title="test">
+            NC A&T 
+            <span>48</span>
+        </li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">Colo St <span>84</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Missouri <span>72</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top ">Oklahoma St <span>55</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom winner">Oregon <span>68</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">Saint Louis <span>64</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">New Mexico St <span>44</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">Memphis <span>54</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">St Mary's <span>52</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">Mich St <span>65</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Valparaiso <span>54</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">Creighton <span>67</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Cincinnati <span>63</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">Duke <span>73</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Albany <span>61</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+      </ul>
+      <ul class="round round-2">
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">Lousville <span>82</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Colo St <span>56</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">Oregon <span>74</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Saint Louis <span>57</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top ">Memphis <span>48</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom winner">Mich St <span>70</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top ">Creighton <span>50</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom winner">Duke <span>66</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+      </ul>
+      <ul class="round round-3">
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">Lousville <span>77</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Oregon <span>69</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top ">Mich St <span>61</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom winner">Duke <span>71</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+      </ul>
+      <ul class="round round-4">
+        <li class="spacer">&nbsp;</li>
+        <li class="game game-top winner">Lousville <span>85</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Duke <span>63</span></li>
+        
+        <li class="spacer">&nbsp;</li>
+      </ul>
+    </main>
+    </div>
+    
+    <div id="south">
+    <main>
+      <ul class="round round-1">
+        <li class="spacer">&nbsp;</li>
+        <li class="game game-top winner">1 
+            Test
+            <span>79</span>
+        </li>
+        <li class="game game-spacer">
+            <center>
+                Game Time 12:15 PM
+                <br>
+                Current Score
+            </center>
+            
+        </li>
+        <li class="game game-bottom ">
+            16
+            Test 2
+            <span>48</span>
+        </li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">Colo St <span>84</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Missouri <span>72</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top ">Oklahoma St <span>55</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom winner">Oregon <span>68</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">Saint Louis <span>64</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">New Mexico St <span>44</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">Memphis <span>54</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">St Mary's <span>52</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">Mich St <span>65</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Valparaiso <span>54</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">Creighton <span>67</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Cincinnati <span>63</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">Duke <span>73</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Albany <span>61</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+      </ul>
+      <ul class="round round-2">
+        <li class="spacer">&nbsp;</li>
+        <li class="game game-top winner">Lousville <span>82</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Colo St <span>56</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">Oregon <span>74</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Saint Louis <span>57</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top ">Memphis <span>48</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom winner">Mich St <span>70</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top ">Creighton <span>50</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom winner">Duke <span>66</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+      </ul>
+      <ul class="round round-3">
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">Lousville <span>77</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Oregon <span>69</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top ">Mich St <span>61</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom winner">Duke <span>71</span></li>
+    
+        <li class="spacer">&nbsp;</li>
+      </ul>
+      <ul class="round round-4">
+        <li class="spacer">&nbsp;</li>
+        <li class="game game-top winner">Lousville <span>85</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">Duke <span>63</span></li>
+        
+        <li class="spacer">&nbsp;</li>
+      </ul>
+    </main>
+    </div>
+<script>
+    function midwest() {
+        var mw = document.getElementById("midwest");
+        var s = document.getElementById("south");
+        var ff = document.getElementById("firstFour");
+        ff.style.display = "none";
+        mw.style.display = "block";
+        s.style.display = "none";
+    }
+    function south() {
+        var mw = document.getElementById("midwest");
+        var s = document.getElementById("south");
+        var ff = document.getElementById("firstFour");
+        ff.style.display = "none";
+        mw.style.display = "none";
+        s.style.display = "block";
+    }
+    function firstFour() {
+        var ff = document.getElementById("firstFour");
+        var mw = document.getElementById("midwest");
+        var s = document.getElementById("south");
+        ff.style.display = "block";
+        mw.style.display = "none";
+        s.style.display = "none";
+    }
+</script>
+{% endblock %}
