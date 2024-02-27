@@ -100,8 +100,8 @@
                 </td>
                 <td style="font-weight:bold">{{data.teamData.teamName}}</td>
                 <td><a href="{{ ''.join(['/conference/', data.teamData.conference]) }}" style="text-decoration: none;">{{ data.teamData.conference }}</a></td>
-                <td style="font-weight:bold">{{data.records.win}}-{{data.records.loss}} ({{data.records.confWin}}-{{data.records.confLoss}})</td>
-                <td style="font-weight:bold">{{data.records.projectedWin}} - {{data.records.projectedLoss}} ({{data.records.confProjectedWin}} - {{data.records.confProjectedLoss}})</td>
+                <td style="font-weight:bold">{{data.records.win}}-{{data.records.loss}} <br> ({{data.records.confWin}}-{{data.records.confLoss}})</td>
+                <td style="font-weight:bold">{{data.records.projectedWin}} - {{data.records.projectedLoss}} <br>  ({{data.records.confProjectedWin}} - {{data.records.confProjectedLoss}})</td>
                 <td style="font-weight:bold">{{data.records.atsWin}}-{{data.records.atsLoss}}-{{data.records.atsPush}}</td>
             </tr>
         </tbody>
