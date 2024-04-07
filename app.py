@@ -38,8 +38,8 @@ app.register_blueprint(disclaimer)
 def inject_now():
     if (datetime.utcnow() - timedelta(hours = 9)).date() < datetime.strptime("20231106", '%Y%m%d').date():
         date = "2023-11-06"
-    elif (datetime.utcnow() - timedelta(hours = 9)).date() > datetime.strptime("20240403", '%Y%m%d').date():
-        date = "2024-04-03"
+    elif (datetime.utcnow() - timedelta(hours = 9)).date() > datetime.strptime("20240408", '%Y%m%d').date():
+        date = "2024-04-08"
     else:
         date = (datetime.utcnow() - timedelta(hours = 9)).strftime('%Y-%m-%d')
     return {'now': date}
