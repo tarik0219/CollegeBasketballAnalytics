@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from constants.constants import CONF
 from datetime import datetime
 from wtforms import SelectField,SubmitField,validators
-from wtforms.fields.html5 import DateField
+from wtforms.fields import DateField
 import warnings
 from utilscbb.api import get_scores
 warnings.filterwarnings(action='ignore')
